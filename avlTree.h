@@ -75,34 +75,30 @@ StatusType postOrder(AVLnode<T> *root, void* doSomething(AVLnode<T> *item))
 }
 
 template <class T>
-StatusType reversInOrder(AVLnode<T> *root, void* doSomething(AVLnode<T> *item),int& num)
+int reversInOrder(AVLnode<T> *root, AVLnode<T> **node_array ,int& num)
 {
     if ((root == nullptr) || (num <= 0))
     {
-        return SUCCESS;
+        return 0;
     }
-    if (reversInOrder(root->right_son, doSomething, num&) != SUCCESS)
-    {
-        return FAIULRE;
-    }
+    int temp = reversInOrder(root->right_son, node_array&, num&);
     if (num <= 0)
     {
         return temp;
     }
     num--;
-    doSomething(root);
-    if (reversInOrder(root->left_son, doSomething, num&) != SUCCESS)
-    {
-        return FAIULRE
-    }
-    return SUCCESS; 
+    *node_array = root;
+    node_array++;
+    temp++;
+    temp += reversInOrder(root->left_son, node_array&, num&);
+    return temp; 
 }
 
 /**************************************/
 /*     C'tors and D'tors section      */
 /**************************************/
 template <class T>
-AVLtree::AVLtree(root=NULL,bigget=NULL,smallest=NULL):root(root),biggest(biggest),smallest(smallest);
+AVLtree::AVLtree() : root(nullptr),biggest(nullptr),smallest(nullptr);
 
 template <class T> 
 static void AVLtree::deleteNode(AVLnode<T> *toDelete)
@@ -126,20 +122,16 @@ AVLtree::~AVLtree()
 /*     Method implementation section    */
 /****************************************/
 template <class T>
-StatusType AVLtree::printFromRight(int num, AVLnode<T> biggest) const 
+StatusType AVLtree::printFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** node_array) const 
 {
-    AVLnode<T> * biggest = biggest;
     if ((biggest == nullptr) || (num == 0))
     {
         returns return SUCCESS;
     }
-    cout<<*biggest<< endl;
+    *node_array = biggest;
     num--;
-    if (reversInOrder(biggest->left_son , printNode, num&) != SUCCESS)
-    {
-        return FAIULRE;
-    }
-    if (printFromRight(num& , biggest->parent) != SUCCESS)
+    temp = reversInOrder(biggest->left_son , (node_array+1), num& )
+    if (printFromRight(num& , biggest->parent, (node_array+temp+1)) != SUCCESS)
     {
         return FAIULRE;
     } 
