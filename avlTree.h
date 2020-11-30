@@ -2,7 +2,7 @@
 #define AVLTREE
 #include "AVLnode.h"
 #include "library.h"
-
+#include <stdlib>
 template <class T>
 class AVLtree
 {
@@ -17,18 +17,18 @@ class AVLtree
     int height(AVLnode<T> *vertex);
     void rebalance(AVLnode<T> *vertex);
     void setBalance(AVLnode<T> *vertex);
-    void printBalance();
+    void printBalance(AVLnode *vertex);
 
     public:
     AVLtree();
     ~AVLtree();
     StatusType addVertex(const AVLnode<T> *new_vertex);
-    StatusType removeVertex(int key);
+    StatusType removeVertex(AVLnode<T> *new_vertex);
     StatusType printFromRight(int num, AVLnode<T> biggest) const ;
 };
 
 /**************************************/
-/*      Explor function section       */
+/*      Explore function section       */
 /**************************************/
 template <class T>
 StatusType inOrder(AVLnode<T> *root, void* doSomething(AVLnode<T> *item))
@@ -126,7 +126,7 @@ StatusType AVLtree::printFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** n
 {
     if ((biggest == nullptr) || (num == 0))
     {
-        returns return SUCCESS;
+        return SUCCESS;
     }
     *node_array = biggest;
     num--;
@@ -140,27 +140,34 @@ StatusType AVLtree::printFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** n
 
 template <class T>
 StatusType AVLtree::addVertex(const AVLnode<T> *new_vertex)  {
-    AVLnode<T> *current_vertex
-    while(true){
-        if(current_vertex->right_son!=NULL && new_vertex->key>current_vertex->key){
-           *current_vertex=current_vertex->right_son;
-        }
-        else if(new_vertex->key>current_vertex->key){
-            break; // we need to put the new vertex as right son to the current vretex.
-        }
-        else if(current_vertex->left_son!=NULL && new_vertex->key<current_vertex->key){
-            *current_vertex=current_vertex->left_son;
-        }
-        else if(new_vertex->key<current_vertex->key){
-            break; // we need to put the new vertex as left son to the current vertex
-        }
-        else if (current_vertex->key==new_vertex->key){
-            return FAILURE;
-        }
-        else if(current_vertex->left_son==NULL && current_vertex->right_son==NULL){
-            //then we need to put the new vertex between the current vertex and its parent.
+    if(*this->root==nullptr){
+        root=new AVLnode<T> (new_vertex->info,new_vertex->key);
+    }
+    else{
+        AVLnode<T> *current_vertex = root;
+        AVLnode<T> *parent; // so we have a grasp on parent vertex
+        while(true){
+            if(current_vertex->key==new_vertex->key) return FAIULRE; // this vertex already exists.
+            parent=current;
+            bool procede_left;
+            if(current_vertex->key>new_vertex->key) procede_left = true;// if current key bigger then new vertex key, we need to go left.
+            else procede_left = false;// else we need to go right
+            current_vertex = procede_left ? current->left_son : current->right_son;
+            //when adding a new vertex it must become a leaf at first
+            if(current==nullptr){ // we made it all the way down to find new leaf spot
+                if(procede_left){
+                    parent->left_son = new AVLnode<T>(new_vertex->info,new_vertex->key);
+                }
+                else{
+                    parent->right_son = new AVLnode<T>(new_vertex->info,new_vertex->key);
+                }
+                rebalance(parent);// when adding a new vertex theres a need for only one roatation.
+                break;
+            }
+        
         }
     }
+    return SUCCESS;
 }
 template <class T>
 StatusType AVLtree<T>::rotateLeftLeft(const AVLnode<T> *vertex){
@@ -205,13 +212,13 @@ StatusType AVLtree<T>::rotateRightRight(const AVLnode<T> *vertex){
 }
 template<class T>
 StatusType AVLtree<T>::rotateLeftRight(const AVLnode<T> *vertex){
-    vertex->right_son=rotaterightright(vertex->left);
-    rotateleftLeft(*vertex);
+    vertex->left_son=rotateRightRight(vertex->left);
+    rotateLeftLeft(*vertex);
     return SUCCESS;
 }
 template<class T>
 StatusType AVLtree<T>::rotateRightLeft(const AVLnode<T> *vertex){
-    vertex->left_son=rotateRightRight(vertex->right);
+    vertex->right_son=rotateRightRight(vertex->right);
     rotateLeftLeft(*vertex);
     return SUCCESS;
 }
@@ -228,20 +235,128 @@ void AVLtree<T>::setBalance(AVLnode<T> *vertex) {
 }
 template <class T>
 void rebalance(AVLnode<T> *vertex){
-setBalance(vertex);
-if(vertex->balance==-2){
-if(vertex->right_son->balance<=0){
-    roataeRightRight(*vertex);
+    setBalance(vertex);
+    if(vertex->balance==-2){
+        if(vertex->right_son->balance<=0){
+            roataeRightRight(*vertex);
+        }
+        else if(vertex->right_son->balance==1){
+            rotateRightLeft(*vertex);
+        }
+    }
+    if(vertex->balance==2){
+        if(vertex->left_son->balance>=0){
+            roataeLeftLeft(*vertex);
+        }
+        else if(vertex->right_son->balance==-1){
+            rotateLeftRight(*vertex);
+        }
+    }
+template <class T>
+void printBalance(AVLnode *vertex){
+ if (vertex != NULL) {
+        printBalance(vertex->left);
+        std::cout << vertex->balance << " ";
+        printBalance(vertex->right);
+    }
 }
-else if(vertex->right_son->balance==1){
-    rotateRightLeft(*vertex);
+template <class T>
+void AVLtree<T>::printBalance() {
+    printBalance(root);
+    std::cout << std::endl;
 }
-if(vertex->balance==2){
-if(vertex->left_son->balance>=0){
-    roataeLeftLeft(*vertex);
+
+StatusType AVLtree::removeVertex(AVLnode<T> *ver_to_remove)
+{
+    if ((ver_to_remove->right_sun == nullptr) &&(ver_to_remove->left_son == nullptr))
+    {
+        if (ver_to_remove->parent =! nullptr)
+        {
+            if(ver_to_remove->parent->right_son == ver_to_remove)
+            {
+                ver_to_remove->parent->right_son = nullptr;
+            }
+            else 
+            {
+                ver_to_remove->parent->left_son = nullptr;
+            }
+        }
+    }
+    else if ((ver_to_remove->right_sun == nullptr)  && !(ver_to_remove->left_son == nullptr))
+    {
+        if(ver_to_remove->parent->right_son == ver_to_remove)
+        {
+            ver_to_remove->parent->right_son = ver_to_remove->left_son;
+        }
+        else 
+        {
+            ver_to_remove->parent->left_son = ver_to_remove->left_son;
+        }
+    }
+    else if (!(ver_to_remove->right_sun == nullptr)  && (ver_to_remove->left_son == nullptr))
+    {
+        if(ver_to_remove->parent->right_son == ver_to_remove)
+        {
+            ver_to_remove->parent->right_son = ver_to_remove->right_sun;
+        }
+        else 
+        {
+            ver_to_remove->parent->left_son = ver_to_remove->right_sun;
+        }
+    }
+    else
+    {
+        AVLnode<T> * temp1 = ver_to_remove->right_sun;
+        AVLnode<T> * temp2 = temp1->left_son;
+        AVLnode<T> * temp3 = temp1->right_sun;
+        while (temp2 != nullptr)
+        {
+            temp3 = temp2->right_son;
+            temp1 = temp2;
+            temp2 = temp2->left_son;
+        }
+        if(temp1->parent->right_son == temp1)
+        {
+            temp1->parent->right_son = temp3;
+        }
+        else    
+        {
+            temp1->parent->left_son = temp3;
+        }
+        temp1->right_sun = ver_to_remove->right_sun;
+        temp1->right_sun->perenr = temp1;
+        temp1->left_son = ver_to_remove->left_son;
+        temp1->left_son->perenr = temp1;
+        if (root == ver_to_remove)
+        {
+            room = temp1;
+        }
+        else
+        {
+            temp1->perent = ver_to_remove->parent;
+            if(ver_to_remove->parent->right_son == ver_to_remove)
+            {
+                ver_to_remove->parent->right_son = temp1;
+            }
+            else 
+            {
+                ver_to_remove->parent->left_son = temp1;
+            }
+        }
+    }
+    AVLnode<T> *to_fix = ver_to_remove->parent;
+    while (to_fix->parent != nullptr)
+    {
+        rebalance(to_fix->parent);
+        to_fix = to_fix->parent;
+    }
+    
+    ver_to_remove->parent = nullptr;
+    ver_to_remove->right_son = nullptr;
+    ver_to_remove->left_son = nullptr;
+
 }
-else if(vertex->right_son->balance==-1){
-    rotateLeftRight(*vertex);
-}
-}
+
+    
+
 #endif
