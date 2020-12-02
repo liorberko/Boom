@@ -6,15 +6,18 @@ template <class T>
 class AVLnode
 {
     public:
-    int key;
     T info;  
     int balance;
+    int height;
     AVLnode* left_son;
     AVLnode* right_son;
-    AVLnode* parent; 
-    AVLnode(T info, int key, AVLnode* left_son = nullptr, AVLnode* right_son = nullptr, AVLnode* prev = nullptr) : 
-    info(info), key(key)  left_son(left_son),right_son(right_son),parent(parent);
-    ~AVLnode() = default;
+    AVLnode* parent;
+    virtual bool operator<(const AVLnode<T> target) const;
+    virtual bool operator>(const AVLnode<T> target) const ;
+    virtual bool operator==(const AVLnode<T> target) const; 
+    virtual bool operator<<(const AVLnode<T> target) const ;
+    AVLnode(T info, int balance = 0, int height = 0, AVLnode* left_son = nullptr, AVLnode* right_son = nullptr, AVLnode* parent = nullptr)
+    : info(info), balance(balance), height(height), left_son(left_son), right_son(right_son), parent(parent) {} 
 };
 
 #endif /* AVLNODE */

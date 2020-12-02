@@ -2,7 +2,7 @@
 #define AVLTREE
 #include "AVLnode.h"
 #include "library.h"
-#include <stdlib>
+#include <iostream>
 template <class T>
 class AVLtree
 {
@@ -13,75 +13,71 @@ class AVLtree
     StatusType rotateRightRight(const AVLnode<T> *vertex);
     StatusType rotateLeftRight(const AVLnode<T> *vertex);
     StatusType rotateRightLeft(const AVLnode<T> *vertex);
-    static void deleteNode(AVLnode<T> *toDelete);
-    int height(AVLnode<T> *vertex);
+    int setHeight(AVLnode<T> *vertex);
     void rebalance(AVLnode<T> *vertex);
     void setBalance(AVLnode<T> *vertex);
-    void printBalance(AVLnode *vertex);
 
     public:
     AVLtree();
     ~AVLtree();
-    StatusType addVertex(const AVLnode<T> *new_vertex);
+    StatusType addVertex(AVLnode<T> *new_vertex);
     StatusType removeVertex(AVLnode<T> *new_vertex);
-    StatusType printFromRight(int num, AVLnode<T> biggest) const ;
+    StatusType receiveFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** node_array) const ;
+    static void deleteNode(AVLnode<T> *toDelete);
+    void printBalance();
+    void printTree();
 };
 
 /**************************************/
-/*      Explore function section       */
+/*      Explore function section      */
 /**************************************/
 template <class T>
-StatusType inOrder(AVLnode<T> *root, void* doSomething(AVLnode<T> *item))
-{
+StatusType inOrder(AVLnode<T> *root, void (*doSomething)(AVLnode<T> *item)){
     if (root == nullptr)
     {
         return SUCCESS;
     }
-    if (inOrdet(root->left_son) == SUCCESS)
+    if (inOrder(root->left_son,doSomething) == SUCCESS)
     {
         return SUCCESS;
     }
     doSomething(root);
-    if (inOrdet(root->right_son) == SUCCESS)
+    if (inOrder(root->right_son, doSomething) == SUCCESS)
     {
         return SUCCESS;
     }
     else
     {
-        return FAIULRE;
+        return FAILURE;
     }     
 }
 
 template <class T>
-StatusType postOrder(AVLnode<T> *root, void* doSomething(AVLnode<T> *item))
-{
+StatusType postOrder(AVLnode<T> *root, void (*doSomething)(AVLnode<T> *item)){
     if (root == nullptr)
     {
         return SUCCESS;
     }
-    if (inOrdet(root->left_son) == SUCCESS)
+    if (inOrder(root->left_son, doSomething) == SUCCESS)
     {
         return SUCCESS;
     }
-    if (inOrdet(root->right_son) == SUCCESS)
+    if (inOrder(root->right_son ,doSomething) == SUCCESS)
     {
         return SUCCESS;
     }
     doSomething(root);
-    else
-    {
-        return FAIULRE;
-    }     
+    return SUCCESS;
+
 }
 
 template <class T>
-int reversInOrder(AVLnode<T> *root, AVLnode<T> **node_array ,int& num)
-{
+int reversInOrder(AVLnode<T> *root, AVLnode<T> **node_array ,int &num){
     if ((root == nullptr) || (num <= 0))
     {
         return 0;
     }
-    int temp = reversInOrder(root->right_son, node_array&, num&);
+    int temp = reversInOrder(root->right_son, node_array ,num);
     if (num <= 0)
     {
         return temp;
@@ -90,7 +86,7 @@ int reversInOrder(AVLnode<T> *root, AVLnode<T> **node_array ,int& num)
     *node_array = root;
     node_array++;
     temp++;
-    temp += reversInOrder(root->left_son, node_array&, num&);
+    temp += reversInOrder(root->left_son, node_array, num);
     return temp; 
 }
 
@@ -98,31 +94,25 @@ int reversInOrder(AVLnode<T> *root, AVLnode<T> **node_array ,int& num)
 /*     C'tors and D'tors section      */
 /**************************************/
 template <class T>
-AVLtree::AVLtree() : root(nullptr),biggest(nullptr),smallest(nullptr);
+AVLtree<T>::AVLtree() : root(nullptr),biggest(nullptr),smallest(nullptr) {}
 
 template <class T> 
-static void AVLtree::deleteNode(AVLnode<T> *toDelete)
+void AVLtree<T>::deleteNode(AVLnode<T> *toDelete)
 {
-    delete(*toDelete);
     delete(toDelete);
 }
 
-static void AVLtree::printNode(AVLnode<T>*  to_print)
-{
-    
-}
-
 template <class T>
-AVLtree::~AVLtree()
+AVLtree<T>::~AVLtree()
 {
-    postOrder(root, AVLtree::deleteNode);
+    postOrder(root, AVLtree<T>::deleteNode);
 }
 
 /****************************************/
 /*     Method implementation section    */
 /****************************************/
 template <class T>
-StatusType AVLtree::printFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** node_array) const 
+StatusType AVLtree<T>::receiveFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** node_array) const 
 {
     if ((biggest == nullptr) || (num == 0))
     {
@@ -130,38 +120,47 @@ StatusType AVLtree::printFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** n
     }
     *node_array = biggest;
     num--;
-    temp = reversInOrder(biggest->left_son , (node_array+1), num& )
-    if (printFromRight(num& , biggest->parent, (node_array+temp+1)) != SUCCESS)
+    int temp = reversInOrder(biggest->left_son , (node_array+1), &num );
+    if (receiveFromRight(&num,biggest->parent,(node_array+temp+1))!=SUCCESS)
     {
-        return FAIULRE;
+        return FAILURE;
     } 
     return SUCCESS;
 }
 
 template <class T>
-StatusType AVLtree::addVertex(const AVLnode<T> *new_vertex)  {
-    if(*this->root==nullptr){
-        root=new AVLnode<T> (new_vertex->info,new_vertex->key);
+StatusType AVLtree<T>::addVertex(AVLnode<T> *new_vertex)  {
+    if(root==NULL){
+        root= new_vertex;
     }
     else{
         AVLnode<T> *current_vertex = root;
         AVLnode<T> *parent; // so we have a grasp on parent vertex
         while(true){
-            if(current_vertex->key==new_vertex->key) return FAIULRE; // this vertex already exists.
-            parent=current;
+            if(current_vertex->info==new_vertex->info) return FAILURE; // this vertex already exists.
+            parent=current_vertex;
             bool procede_left;
-            if(current_vertex->key>new_vertex->key) procede_left = true;// if current key bigger then new vertex key, we need to go left.
+            if(current_vertex->info>new_vertex->info) procede_left = true;// if current node bigger then new node, we need to go left.
             else procede_left = false;// else we need to go right
-            current_vertex = procede_left ? current->left_son : current->right_son;
+            current_vertex = procede_left ? current_vertex->left_son : current_vertex->right_son;
             //when adding a new vertex it must become a leaf at first
-            if(current==nullptr){ // we made it all the way down to find new leaf spot
+            if(current_vertex==NULL){ // we made it all the way down to find new leaf spot
                 if(procede_left){
-                    parent->left_son = new AVLnode<T>(new_vertex->info,new_vertex->key);
+                    parent->left_son = new_vertex;
                 }
                 else{
-                    parent->right_son = new AVLnode<T>(new_vertex->info,new_vertex->key);
+                    parent->right_son = new_vertex;
                 }
-                rebalance(parent);// when adding a new vertex theres a need for only one roatation.
+                new_vertex->parent=parent;
+                new_vertex->height=0;
+                parent->height++;
+                while(parent->parent != NULL && parent->height == parent->parent->height){
+                    //if the height of the parent of the vertex is bigger by 1 from the vertex's height then the
+                    //the tree above is already balanced.
+                    parent=parent->parent;
+                    setBalance(parent);
+                    parent->height=setHeight(parent);
+                }
                 break;
             }
         
@@ -179,7 +178,7 @@ StatusType AVLtree<T>::rotateLeftLeft(const AVLnode<T> *vertex){
     b->parent=p;
     if(p!=NULL){
         if(p->left_son==vertex){
-            p->left_son=b);
+            p->left_son=b;
         }
         else{
             p->right_son=b;
@@ -199,7 +198,7 @@ StatusType AVLtree<T>::rotateRightRight(const AVLnode<T> *vertex){
     c->parent=p;
     if(p!=NULL){
         if(p->right_son==vertex){
-            p->right_son=c);
+            p->right_son=c;
         }
         else{
             p->left_son=c;
@@ -212,48 +211,41 @@ StatusType AVLtree<T>::rotateRightRight(const AVLnode<T> *vertex){
 }
 template<class T>
 StatusType AVLtree<T>::rotateLeftRight(const AVLnode<T> *vertex){
-    vertex->left_son=rotateRightRight(vertex->left);
+    vertex->left_son=rotateRightRight(vertex->left_son);
     rotateLeftLeft(*vertex);
     return SUCCESS;
 }
 template<class T>
 StatusType AVLtree<T>::rotateRightLeft(const AVLnode<T> *vertex){
-    vertex->right_son=rotateRightRight(vertex->right);
+    vertex->right_son=rotateRightRight(vertex->right_son);
     rotateLeftLeft(*vertex);
     return SUCCESS;
 }
 template<class T>
-int height(AVLnode<T> *vertex){
+int AVLtree<T>::setHeight(AVLnode<T> *vertex){
     if(vertex==NULL){
         return -1;
     }
-    return 1+std::max(height(height(vertex->left_son), height(vertex->right_son))
+    return 1+std::max(vertex->left_son->height, vertex->right_son->height);
 }
 template <class T>
 void AVLtree<T>::setBalance(AVLnode<T> *vertex) {
-    vertex->balance = height(n->right) - height(n->left);
+    vertex->balance = vertex->left_son->height - vertex->right_son->height;
 }
 template <class T>
 void rebalance(AVLnode<T> *vertex){
+    int prev_balace= vertex->balance;
     setBalance(vertex);
     if(vertex->balance==-2){
-        if(vertex->right_son->balance<=0){
-            roataeRightRight(*vertex);
-        }
-        else if(vertex->right_son->balance==1){
-            rotateRightLeft(*vertex);
-        }
+        vertex->right_son->balance<=0 ? roataeRightRight(*vertex) : rotateRightLeft(*vertex);
     }
     if(vertex->balance==2){
-        if(vertex->left_son->balance>=0){
-            roataeLeftLeft(*vertex);
-        }
-        else if(vertex->right_son->balance==-1){
-            rotateLeftRight(*vertex);
-        }
+        vertex->left_son->balance>=0 ? roataeLeftLeft(*vertex) : rotateLeftRight(*vertex);
     }
+    
+}
 template <class T>
-void printBalance(AVLnode *vertex){
+void printBalance(AVLnode<T> *vertex){
  if (vertex != NULL) {
         printBalance(vertex->left);
         std::cout << vertex->balance << " ";
@@ -266,11 +258,12 @@ void AVLtree<T>::printBalance() {
     std::cout << std::endl;
 }
 
-StatusType AVLtree::removeVertex(AVLnode<T> *ver_to_remove)
+template <class T>
+StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
 {
-    if ((ver_to_remove->right_sun == nullptr) &&(ver_to_remove->left_son == nullptr))
+    if ((ver_to_remove->right_son == nullptr) &&(ver_to_remove->left_son == nullptr))
     {
-        if (ver_to_remove->parent =! nullptr)
+        if (ver_to_remove->parent != nullptr)
         {
             if(ver_to_remove->parent->right_son == ver_to_remove)
             {
@@ -282,7 +275,7 @@ StatusType AVLtree::removeVertex(AVLnode<T> *ver_to_remove)
             }
         }
     }
-    else if ((ver_to_remove->right_sun == nullptr)  && !(ver_to_remove->left_son == nullptr))
+    else if ((ver_to_remove->right_son == nullptr)  && !(ver_to_remove->left_son == nullptr))
     {
         if(ver_to_remove->parent->right_son == ver_to_remove)
         {
@@ -293,22 +286,22 @@ StatusType AVLtree::removeVertex(AVLnode<T> *ver_to_remove)
             ver_to_remove->parent->left_son = ver_to_remove->left_son;
         }
     }
-    else if (!(ver_to_remove->right_sun == nullptr)  && (ver_to_remove->left_son == nullptr))
+    else if (!(ver_to_remove->right_son == nullptr)  && (ver_to_remove->left_son == nullptr))
     {
         if(ver_to_remove->parent->right_son == ver_to_remove)
         {
-            ver_to_remove->parent->right_son = ver_to_remove->right_sun;
+            ver_to_remove->parent->right_son = ver_to_remove->right_son;
         }
         else 
         {
-            ver_to_remove->parent->left_son = ver_to_remove->right_sun;
+            ver_to_remove->parent->left_son = ver_to_remove->right_son;
         }
     }
     else
     {
-        AVLnode<T> * temp1 = ver_to_remove->right_sun;
+        AVLnode<T> * temp1 = ver_to_remove->right_son;
         AVLnode<T> * temp2 = temp1->left_son;
-        AVLnode<T> * temp3 = temp1->right_sun;
+        AVLnode<T> * temp3 = temp1->right_son;
         while (temp2 != nullptr)
         {
             temp3 = temp2->right_son;
@@ -323,17 +316,17 @@ StatusType AVLtree::removeVertex(AVLnode<T> *ver_to_remove)
         {
             temp1->parent->left_son = temp3;
         }
-        temp1->right_sun = ver_to_remove->right_sun;
-        temp1->right_sun->perenr = temp1;
+        temp1->right_son = ver_to_remove->right_son;
+        temp1->right_son->parent = temp1;
         temp1->left_son = ver_to_remove->left_son;
-        temp1->left_son->perenr = temp1;
+        temp1->left_son->parent = temp1;
         if (root == ver_to_remove)
         {
-            room = temp1;
+            root = temp1;
         }
         else
         {
-            temp1->perent = ver_to_remove->parent;
+            temp1->parent = ver_to_remove->parent;
             if(ver_to_remove->parent->right_son == ver_to_remove)
             {
                 ver_to_remove->parent->right_son = temp1;
@@ -354,9 +347,28 @@ StatusType AVLtree::removeVertex(AVLnode<T> *ver_to_remove)
     ver_to_remove->parent = nullptr;
     ver_to_remove->right_son = nullptr;
     ver_to_remove->left_son = nullptr;
-
+return SUCCESS;
 }
 
+template <class T>
+void printVertex(AVLnode<T> *vertex) {
+    std::cout <<"info:"<< std::endl;
+    std::cout <<vertex->info<< std::endl;
+    std::cout <<"balance:"<< std::endl;
+    std::cout <<vertex->balance<< std::endl;
+    std::cout <<"left son:"<< std::endl;
+    std::cout <<vertex->left_son->info<< std::endl;
+    std::cout <<"right son:"<< std::endl;
+    std::cout <<vertex->right_son->info<< std::endl;
+    std::cout <<"parent:"<< std::endl;
+    std::cout <<vertex->parent->info<< std::endl;
+    std::cout << std::endl;
+}
+template <class T>
+void AVLtree<T>::printTree() {
+    inOrder(root,printVertex);
+    std::cout <<"the end"<< std::endl;
+}
     
 
-#endif
+#endif  

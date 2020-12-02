@@ -22,7 +22,7 @@ extern "C" {
  * ----------------------------------- */
 typedef enum {
     SUCCESS = 0,
-    FAIULRE = -1,
+    FAILURE = -1,
     ALLOCATION_ERROR = -2,
     INVALID_INPUT = -3
 } StatusType;

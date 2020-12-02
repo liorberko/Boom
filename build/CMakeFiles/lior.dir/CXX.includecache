@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLnode.h
+iostream
+-
+
+C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLtree.h
+AVLnode.h
+C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLnode.h
+library.h
+C:/Users/Lior/Desktop/technion/data_stract/Boom/library.h
+iostream
+-
+
+C:/Users/Lior/Desktop/technion/data_stract/Boom/course.h
+AVLnode.h
+C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLnode.h
+
+C:/Users/Lior/Desktop/technion/data_stract/Boom/library.h
+
+C:/Users/Lior/Desktop/technion/data_stract/Boom/main.cpp
+iostream
+-
+AVLnode.h
+C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLnode.h
+AVLtree.h
+C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLtree.h
+course.h
+C:/Users/Lior/Desktop/technion/data_stract/Boom/course.h
+
