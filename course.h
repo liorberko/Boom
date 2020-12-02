@@ -1,38 +1,27 @@
 #ifndef COURSE_H
 #define COURSE_H
 #include "AVLnode.h"
+#include "library.h"
 
-// struct courseInfo
-// {
-//     int courseID;
-//     int numOfClasses;
-    
-// };
 
-class course : public AVLnode<int>
+class course 
 {
+    int courseID;
     public:
     bool operator<(const course target) const ;
     bool operator>(const course target) const ;
     bool operator==(const course target) const ;
+    course& operator=(const course target) ;
     friend std::ostream& operator<<(std::ostream& out, const course target) ;
-    course(int info, course* left_son = nullptr, course* right_son = nullptr, course* parent = nullptr); 
-    ~course();
+    course(int info) : courseID(info) {}; 
+    ~course() = default;
 };
 
-course::~course() 
-{
-    delete(left_son);
-    delete(right_son);
-    delete(parent);
-}
 
-course::course(int info, course* left_son, course* right_son, course* parent) 
-:AVLnode(info) {} 
 
 bool course::operator<(const course target) const 
 {
-    if (info < target.info)
+    if (courseID < target.courseID)
     {
         return true;
     }
@@ -40,20 +29,24 @@ bool course::operator<(const course target) const
 }
 
 bool course::operator>(const course target) const {
-    if(info>target.info) return true;
+    if(courseID>target.courseID) return true;
     return false;
 }
 bool course::operator==(const course target) const
 {
-    if (info == target.info)
+    if (courseID == target.courseID)
     {
         return true;
     }
     return false;
 }
+course& course::operator=(const course target) {
+    this->courseID=target.courseID;
+    return *this;
+}
 std::ostream& operator<<(std::ostream& out, const course target) 
 {
-    out<< target.info;
+    out<< target.courseID;
     return out;
 }
 #endif /* COURSE_H */ 

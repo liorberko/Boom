@@ -9,10 +9,10 @@ class AVLtree
     AVLnode<T> *root;
     AVLnode<T> *biggest;
     AVLnode<T> *smallest;
-    StatusType rotateLeftLeft(const AVLnode<T> *vertex);
-    StatusType rotateRightRight(const AVLnode<T> *vertex);
-    StatusType rotateLeftRight(const AVLnode<T> *vertex);
-    StatusType rotateRightLeft(const AVLnode<T> *vertex);
+    AVLnode<T>* rotateLeftLeft(AVLnode<T> *vertex);
+    AVLnode<T>* rotateRightRight(AVLnode<T> *vertex);
+    AVLnode<T>* rotateLeftRight(AVLnode<T> *vertex);
+    AVLnode<T>* rotateRightLeft(AVLnode<T> *vertex);
     int setHeight(AVLnode<T> *vertex);
     void rebalance(AVLnode<T> *vertex);
     void setBalance(AVLnode<T> *vertex);
@@ -133,46 +133,62 @@ StatusType AVLtree<T>::addVertex(AVLnode<T> *new_vertex)  {
     if(root==NULL){
         root= new_vertex;
     }
-    else{
-        AVLnode<T> *current_vertex = root;
-        AVLnode<T> *parent; // so we have a grasp on parent vertex
-        while(true){
-            if(current_vertex->info==new_vertex->info) return FAILURE; // this vertex already exists.
-            parent=current_vertex;
-            bool procede_left;
-            if(current_vertex->info>new_vertex->info) procede_left = true;// if current node bigger then new node, we need to go left.
-            else procede_left = false;// else we need to go right
-            current_vertex = procede_left ? current_vertex->left_son : current_vertex->right_son;
-            //when adding a new vertex it must become a leaf at first
-            if(current_vertex==NULL){ // we made it all the way down to find new leaf spot
-                if(procede_left){
-                    parent->left_son = new_vertex;
-                }
-                else{
-                    parent->right_son = new_vertex;
-                }
-                new_vertex->parent=parent;
-                new_vertex->height=0;
-                parent->height++;
-                while(parent->parent != NULL && parent->height == parent->parent->height){
-                    //if the height of the parent of the vertex is bigger by 1 from the vertex's height then the
-                    //the tree above is already balanced.
-                    parent=parent->parent;
-                    setBalance(parent);
-                    parent->height=setHeight(parent);
-                }
-                break;
+    if ((biggest == nullptr) || (biggest->info < new_vertex->info))
+    {
+        biggest = new_vertex;
+    }
+    if ((smallest == nullptr) || (smallest->info > new_vertex->info))
+    {
+        smallest = new_vertex;
+    }
+    AVLnode<T> *current_vertex = root;
+    AVLnode<T> *parent; // so we have a grasp on parent vertex
+    while(true)
+    {
+        if(current_vertex->info==new_vertex->info) return FAILURE; // this vertex already exists.
+        parent=current_vertex;
+        bool procede_left;
+        if(current_vertex->info>new_vertex->info) procede_left = true;// if current node bigger then new node, we need to go left.
+        else procede_left = false;// else we need to go right
+        current_vertex = procede_left ? current_vertex->left_son : current_vertex->right_son;
+        //when adding a new vertex it must become a leaf at first
+        if(current_vertex==NULL)
+        { // we made it all the way down to find new leaf spot
+            if ((parent->left_son == nullptr ) && (parent->right_son == nullptr)) parent->height++;
+            if(procede_left){
+                parent->left_son = new_vertex;
             }
-        
+            else{
+                parent->right_son = new_vertex;
+            }
+            new_vertex->parent=parent;
+            setBalance(parent);
+            new_vertex->height=0;
+            //parent->height++;
+            while(parent->parent != NULL && parent->height == parent->parent->height){
+                //if the height of the parent of the vertex is bigger by 1 from the vertex's height then the
+                //the tree above is already balanced.
+                parent=parent->parent;
+                rebalance(parent);
+                parent->height=setHeight(parent);
+            }
+            while(parent != NULL)
+            {
+                setBalance(parent);
+                parent=parent->parent;
+            }
+            break;
         }
     }
-    return SUCCESS;
+return SUCCESS;
 }
+
 template <class T>
-StatusType AVLtree<T>::rotateLeftLeft(const AVLnode<T> *vertex){
+AVLnode<T>* AVLtree<T>::rotateLeftLeft(AVLnode<T> *vertex){
     AVLnode<T> *p=vertex->parent;
-    AVLnode<T> *b=vertex.left_son;
-    if(b->right_son->parent!=NULL) b->right_son->parent=vertex;
+    AVLnode<T> *b=vertex->left_son;
+    if(b->right_son!=NULL) b->right_son->parent=vertex;
+    vertex->left_son = b->right_son;
     b->right_son=vertex;
     vertex->parent=b;
     b->parent=p;
@@ -184,15 +200,22 @@ StatusType AVLtree<T>::rotateLeftLeft(const AVLnode<T> *vertex){
             p->right_son=b;
         }
     }
+    else{
+        root=b;
+    }
+    vertex->height = setHeight(vertex);
+    b->height=setHeight(b);
     setBalance(vertex);
     setBalance(b);
-    return SUCCESS;
+    return b;
 }
+
 template <class T>
-StatusType AVLtree<T>::rotateRightRight(const AVLnode<T> *vertex){
+AVLnode<T>* AVLtree<T>::rotateRightRight(AVLnode<T> *vertex){
     AVLnode<T> *p=vertex->parent;
-    AVLnode<T> *c=vertex.right_son;
-    if(c->left_son->parent!=NULL) c->left_son->parent=vertex;
+    AVLnode<T> *c=vertex->right_son;
+    if(c->left_son!=NULL) c->left_son->parent=vertex;
+    vertex->right_son = c->left_son;
     c->left_son=vertex;
     vertex->parent=c;
     c->parent=p;
@@ -204,43 +227,79 @@ StatusType AVLtree<T>::rotateRightRight(const AVLnode<T> *vertex){
             p->left_son=c;
         }
     }
+    else
+    {
+        root = c;
+    }
+    vertex->height = setHeight(vertex);
+    c->height=setHeight(c);
     setBalance(vertex);
     setBalance(c);
-    return SUCCESS;
+    return c;
     
 }
 template<class T>
-StatusType AVLtree<T>::rotateLeftRight(const AVLnode<T> *vertex){
+AVLnode<T>* AVLtree<T>::rotateLeftRight(AVLnode<T> *vertex){
     vertex->left_son=rotateRightRight(vertex->left_son);
-    rotateLeftLeft(*vertex);
-    return SUCCESS;
+    rotateLeftLeft(vertex);
+    return vertex;
 }
+
 template<class T>
-StatusType AVLtree<T>::rotateRightLeft(const AVLnode<T> *vertex){
+AVLnode<T>* AVLtree<T>::rotateRightLeft(AVLnode<T> *vertex){
     vertex->right_son=rotateRightRight(vertex->right_son);
-    rotateLeftLeft(*vertex);
-    return SUCCESS;
+    rotateLeftLeft(vertex);
+    return vertex;
 }
+
 template<class T>
 int AVLtree<T>::setHeight(AVLnode<T> *vertex){
     if(vertex==NULL){
         return -1;
     }
+    if ( vertex->left_son == nullptr && vertex->right_son == nullptr)
+    {
+        return 0;
+    }
+    else if(vertex->left_son == nullptr)
+    {
+        return (vertex->right_son->height +1);
+    }
+    else if (vertex->right_son == nullptr)
+    {
+        return (vertex->left_son->height +1);
+    }
     return 1+std::max(vertex->left_son->height, vertex->right_son->height);
 }
+
 template <class T>
 void AVLtree<T>::setBalance(AVLnode<T> *vertex) {
-    vertex->balance = vertex->left_son->height - vertex->right_son->height;
+    if ( vertex->left_son == nullptr && vertex->right_son == nullptr)
+    {
+        vertex->balance=0;
+        return;
+    }
+    else if(vertex->left_son == nullptr)
+    {
+        vertex->balance = -1 - vertex->right_son->height;
+        return;
+    }
+    else if (vertex->right_son == nullptr)
+    {
+        vertex->balance = vertex->left_son->height + 1;
+        return;
+    }
+    else vertex->balance = vertex->left_son->height - vertex->right_son->height;
 }
 template <class T>
-void rebalance(AVLnode<T> *vertex){
+void AVLtree<T>::rebalance(AVLnode<T> *vertex){
     int prev_balace= vertex->balance;
     setBalance(vertex);
     if(vertex->balance==-2){
-        vertex->right_son->balance<=0 ? roataeRightRight(*vertex) : rotateRightLeft(*vertex);
+        vertex->right_son->balance<=0 ? rotateRightRight(vertex) : rotateRightLeft(vertex);
     }
     if(vertex->balance==2){
-        vertex->left_son->balance>=0 ? roataeLeftLeft(*vertex) : rotateLeftRight(*vertex);
+        vertex->left_son->balance>=0 ? rotateLeftLeft(vertex) : rotateLeftRight(vertex);
     }
     
 }
@@ -338,12 +397,17 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
         }
     }
     AVLnode<T> *to_fix = ver_to_remove->parent;
+    AVLnode<T> *to_fix_balanc = ver_to_remove;
+    while(to_fix_balanc != NULL)
+    {
+        setBalance(to_fix_balanc);
+        to_fix_balanc=to_fix_balanc->parent;
+    }
     while (to_fix->parent != nullptr)
     {
         rebalance(to_fix->parent);
         to_fix = to_fix->parent;
     }
-    
     ver_to_remove->parent = nullptr;
     ver_to_remove->right_son = nullptr;
     ver_to_remove->left_son = nullptr;
