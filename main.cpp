@@ -3,6 +3,11 @@
 #include "AVLtree.h"
 #include "course.h"
 
+void printVer(AVLnode<course>* target)
+{
+    std::cout << target<< std::endl;
+}
+
 int main()
 {
      AVLtree<course> newAVL;
@@ -27,6 +32,6 @@ int main()
         std::cout<<"remove"<<std::endl;
         newAVL.removeVertex(newAVL.getRoot());
     }
-    std::cout << "Printing tree: " << std::endl;
-    newAVL.printTree();
+   // newAVL.
+    //newAVL.printTree();
 }

@@ -23,27 +23,29 @@ class AVLtree
     AVLnode<T>* getRoot();
     StatusType addVertex(AVLnode<T> *new_vertex);
     StatusType removeVertex(AVLnode<T> *new_vertex);
-    StatusType receiveFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** node_array) const ;
+    StatusType applyFromRight(int &num, void (*doSomething)(AVLnode<T> *item, int &max_actions));
     static void deleteNode(AVLnode<T> *toDelete);
     void printBalance();
     void printTree();
+    StatusType inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
+    StatusType postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
 };
 
 /**************************************/
 /*      Explore function section      */
 /**************************************/
 template <class T>
-StatusType inOrder(AVLnode<T> *root, void (*doSomething)(AVLnode<T> *item)){
-    if (root == nullptr)
+StatusType AVLtree<T>::inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item)){
+    if (target == nullptr)
     {
         return SUCCESS;
     }
-    if (inOrder(root->left_son,doSomething) == SUCCESS)
+    if (inOrder(target->left_son,doSomething) == SUCCESS)
     {
         return SUCCESS;
     }
-    doSomething(root);
-    if (inOrder(root->right_son, doSomething) == SUCCESS)
+    doSomething(target);
+    if (inOrder(target->right_son, doSomething) == SUCCESS)
     {
         return SUCCESS;
     }
@@ -59,41 +61,63 @@ AVLnode<T>* AVLtree<T>::getRoot(){
 }
 
 template <class T>
-StatusType postOrder(AVLnode<T> *root, void (*doSomething)(AVLnode<T> *item)){
-    if (root == nullptr)
+StatusType AVLtree<T>::postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item)){
+    if (target == nullptr)
     {
         return SUCCESS;
     }
-    if (inOrder(root->left_son, doSomething) == SUCCESS)
+    if (postOrder(target->left_son, doSomething) == SUCCESS)
     {
         return SUCCESS;
     }
-    if (inOrder(root->right_son ,doSomething) == SUCCESS)
+    if (postOrder(target->right_son ,doSomething) == SUCCESS)
     {
         return SUCCESS;
     }
-    doSomething(root);
+    doSomething(target);
     return SUCCESS;
 
 }
 
 template <class T>
-int reversInOrder(AVLnode<T> *root, AVLnode<T> **node_array ,int &num){
-    if ((root == nullptr) || (num <= 0))
+int reversInOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item, int &max_actions),int &num){
+    if ((target == nullptr) || (num <= 0))
     {
         return 0;
     }
-    int temp = reversInOrder(root->right_son, node_array ,num);
+    int temp = reversInOrder(target->right_son, doSomething ,num);
     if (num <= 0)
     {
         return temp;
     }
+    doSomething(target,num);
     num--;
-    *node_array = root;
-    node_array++;
     temp++;
-    temp += reversInOrder(root->left_son, node_array, num);
+    temp += reversInOrder(target->left_son, doSomething, num);
     return temp; 
+}
+
+template <class T>
+StatusType applyFromRightHelper(int &num, AVLnode<T>* target, void (*doSomething)(AVLnode<T> *item, int &max_actions))  
+{
+    if ((target == nullptr) || (num == 0))
+    {
+        return SUCCESS;
+    }
+    doSomething(target, num);
+    num--;
+    int temp = reversInOrder(target->left_son , doSomething, num );
+    if (applyFromRightHelper(&num,target->parent,doSomething)!=SUCCESS)
+    {
+        return FAILURE;
+    } 
+    return SUCCESS;
+}
+
+template <class T>
+StatusType AVLtree<T>::applyFromRight(int &num, void (*doSomething)(AVLnode<T> *item, int &max_actions))  
+{
+    return applyFromRightHelper(num, biggest, doSomething);
 }
 
 /**************************************/
@@ -117,22 +141,7 @@ AVLtree<T>::~AVLtree()
 /****************************************/
 /*     Method implementation section    */
 /****************************************/
-template <class T>
-StatusType AVLtree<T>::receiveFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** node_array) const 
-{
-    if ((biggest == nullptr) || (num == 0))
-    {
-        return SUCCESS;
-    }
-    *node_array = biggest;
-    num--;
-    int temp = reversInOrder(biggest->left_son , (node_array+1), &num );
-    if (receiveFromRight(&num,biggest->parent,(node_array+temp+1))!=SUCCESS)
-    {
-        return FAILURE;
-    } 
-    return SUCCESS;
-}
+
 
 template <class T>
 StatusType AVLtree<T>::addVertex(AVLnode<T> *new_vertex)  {
@@ -253,8 +262,8 @@ AVLnode<T>* AVLtree<T>::rotateLeftRight(AVLnode<T> *vertex){
 
 template<class T>
 AVLnode<T>* AVLtree<T>::rotateRightLeft(AVLnode<T> *vertex){
-    vertex->right_son=rotateRightRight(vertex->right_son);
-    rotateLeftLeft(vertex);
+    vertex->right_son=rotateLeftLeft(vertex->right_son);
+    rotateRightRight(vertex);
     return vertex;
 }
 
@@ -389,15 +398,29 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
         if(temp1->parent->right_son == temp1)
         {
             temp1->parent->right_son = temp3;
+            if (temp3 != nullptr)
+            {
+                temp3->parent = temp1->parent;
+            }
         }
         else    
         {
             temp1->parent->left_son = temp3;
+            if (temp3 != nullptr)
+            {
+                temp3->parent = temp1->parent;
+            }
         }
         temp1->right_son = ver_to_remove->right_son;
-        temp1->right_son->parent = temp1;
+        if (temp1->right_son != nullptr)
+        {
+            temp1->right_son->parent = temp1;
+        }
         temp1->left_son = ver_to_remove->left_son;
-        temp1->left_son->parent = temp1;
+        if (temp1->left_son != nullptr)
+        {
+            temp1->left_son->parent = temp1;
+        }
         to_fix = temp1->parent;
         if (root == ver_to_remove)
         {
@@ -426,7 +449,7 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
     }
     while (to_fix != nullptr)
     {
-        rebalance(to_fix->parent);
+        rebalance(to_fix);
         to_fix = to_fix->parent;
     }
     ver_to_remove->parent = nullptr;
