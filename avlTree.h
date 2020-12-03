@@ -20,6 +20,7 @@ class AVLtree
     public:
     AVLtree();
     ~AVLtree();
+    AVLnode<T>* getRoot();
     StatusType addVertex(AVLnode<T> *new_vertex);
     StatusType removeVertex(AVLnode<T> *new_vertex);
     StatusType receiveFromRight(int num, AVLnode<T>* biggest, AVLnode<T> ** node_array) const ;
@@ -50,6 +51,11 @@ StatusType inOrder(AVLnode<T> *root, void (*doSomething)(AVLnode<T> *item)){
     {
         return FAILURE;
     }     
+}
+
+template <class T>
+AVLnode<T>* AVLtree<T>::getRoot(){
+    return root;
 }
 
 template <class T>
@@ -317,9 +323,11 @@ void AVLtree<T>::printBalance() {
     std::cout << std::endl;
 }
 
+
 template <class T>
 StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
 {
+    AVLnode<T> *to_fix;
     if ((ver_to_remove->right_son == nullptr) &&(ver_to_remove->left_son == nullptr))
     {
         if (ver_to_remove->parent != nullptr)
@@ -333,28 +341,39 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
                 ver_to_remove->parent->left_son = nullptr;
             }
         }
+        to_fix = ver_to_remove->parent;
     }
     else if ((ver_to_remove->right_son == nullptr)  && !(ver_to_remove->left_son == nullptr))
     {
-        if(ver_to_remove->parent->right_son == ver_to_remove)
+        if (ver_to_remove->parent != nullptr)
         {
-            ver_to_remove->parent->right_son = ver_to_remove->left_son;
+            if(ver_to_remove->parent->right_son == ver_to_remove)
+            {
+                ver_to_remove->parent->right_son = ver_to_remove->left_son;
+            }
+            else 
+            {
+                ver_to_remove->parent->left_son = ver_to_remove->left_son;
+            }
         }
-        else 
-        {
-            ver_to_remove->parent->left_son = ver_to_remove->left_son;
-        }
+        ver_to_remove->left_son->parent = ver_to_remove->parent;
+        to_fix = ver_to_remove->left_son;
     }
     else if (!(ver_to_remove->right_son == nullptr)  && (ver_to_remove->left_son == nullptr))
     {
-        if(ver_to_remove->parent->right_son == ver_to_remove)
+        if (ver_to_remove->parent != nullptr)
         {
-            ver_to_remove->parent->right_son = ver_to_remove->right_son;
+            if(ver_to_remove->parent->right_son == ver_to_remove)
+            {
+                ver_to_remove->parent->right_son = ver_to_remove->right_son;
+            }
+            else 
+            {
+                ver_to_remove->parent->left_son = ver_to_remove->right_son;
+            }
         }
-        else 
-        {
-            ver_to_remove->parent->left_son = ver_to_remove->right_son;
-        }
+        ver_to_remove->right_son->parent = ver_to_remove->parent;
+        to_fix = ver_to_remove->right_son;
     }
     else
     {
@@ -379,9 +398,11 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
         temp1->right_son->parent = temp1;
         temp1->left_son = ver_to_remove->left_son;
         temp1->left_son->parent = temp1;
+        to_fix = temp1->parent;
         if (root == ver_to_remove)
         {
             root = temp1;
+            temp1->parent = nullptr;
         }
         else
         {
@@ -396,14 +417,14 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
             }
         }
     }
-    AVLnode<T> *to_fix = ver_to_remove->parent;
-    AVLnode<T> *to_fix_balanc = ver_to_remove;
-    while(to_fix_balanc != NULL)
+    AVLnode<T> *to_fix_balance = to_fix;
+    while(to_fix_balance != NULL)
     {
-        setBalance(to_fix_balanc);
-        to_fix_balanc=to_fix_balanc->parent;
+        to_fix_balance->height = setHeight(to_fix_balance);
+        setBalance(to_fix_balance);
+        to_fix_balance=to_fix_balance->parent;
     }
-    while (to_fix->parent != nullptr)
+    while (to_fix != nullptr)
     {
         rebalance(to_fix->parent);
         to_fix = to_fix->parent;

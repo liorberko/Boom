@@ -22,6 +22,11 @@ int main()
         AVLnode<course>* newNode = new AVLnode<course> (*temp);
         newAVL.addVertex(newNode);
     }
+    for (int i = 1; i < 10; i+=2)
+    {
+        std::cout<<"remove"<<std::endl;
+        newAVL.removeVertex(newAVL.getRoot());
+    }
     std::cout << "Printing tree: " << std::endl;
     newAVL.printTree();
 }
