@@ -3,11 +3,12 @@
 #include <iostream>
 #include "library.h"
 
-template <class T>
+template <class T, class M>
 class AVLnode
 {
     public:
-    T info;  
+    T info; 
+    M key;
     int balance;
     int height;
     AVLnode* left_son;
@@ -24,6 +25,10 @@ AVLnode<T>::AVLnode(T info): info(info), balance(0), height(0), left_son(nullptr
 template <class T>
 AVLnode<T>& AVLnode<T>::operator=(const AVLnode<T> target)
 {
+    if (this == &target)
+    {
+        return *this;
+    }
     info = target.info;
     balance = target.balance;
     height = target.height;

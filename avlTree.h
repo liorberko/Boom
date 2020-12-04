@@ -3,10 +3,10 @@
 #include "AVLnode.h"
 #include "library.h"
 #include <iostream>
-template <class T>
+template <class T , class M>
 class AVLtree
 {
-    AVLnode<T> *root;
+    AVLnode<T,M> *root;
     AVLnode<T> *biggest;
     AVLnode<T> *smallest;
     AVLnode<T>* rotateLeftLeft(AVLnode<T> *vertex);
@@ -25,6 +25,7 @@ class AVLtree
     StatusType removeVertex(AVLnode<T> *new_vertex);
     StatusType applyFromRight(int &num, void (*doSomething)(AVLnode<T> *item, int &max_actions));
     static void deleteNode(AVLnode<T> *toDelete);
+    AVLnode<T>* find(T to_find);
     void printBalance();
     void printTree();
     void inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
@@ -483,11 +484,24 @@ void printVertex(AVLnode<T> *vertex) {
     
     std::cout << std::endl;
 }
+
 template <class T>
 void AVLtree<T>::printTree() {
     inOrder(root,printVertex);
     std::cout <<"the end"<< std::endl;
 }
-    
+
+template <class T>
+AVLnode<T,M>* find(T to_find){
+    if(root->info == to_find) return root;
+    if(root->info > to_find){
+        if(this->left_son != nullptr) find(this->left_son,to_find);
+        else return NULL;
+    }
+    if(root->info < to_find){
+        if(this->right_son != nullptr) find(this->right_son, to_find);
+        else return NULL;
+    } 
+}
 
 #endif  
