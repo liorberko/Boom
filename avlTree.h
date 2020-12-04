@@ -27,32 +27,22 @@ class AVLtree
     static void deleteNode(AVLnode<T> *toDelete);
     void printBalance();
     void printTree();
-    StatusType inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
-    StatusType postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
+    void inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
+    void postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
 };
 
 /**************************************/
 /*      Explore function section      */
 /**************************************/
 template <class T>
-StatusType AVLtree<T>::inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item)){
+void AVLtree<T>::inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item)){
     if (target == nullptr)
     {
-        return SUCCESS;
+        return ;
     }
-    if (inOrder(target->left_son,doSomething) == SUCCESS)
-    {
-        return SUCCESS;
-    }
+    inOrder(target->left_son,doSomething);
     doSomething(target);
-    if (inOrder(target->right_son, doSomething) == SUCCESS)
-    {
-        return SUCCESS;
-    }
-    else
-    {
-        return FAILURE;
-    }     
+    inOrder(target->right_son, doSomething);  
 }
 
 template <class T>
@@ -61,22 +51,14 @@ AVLnode<T>* AVLtree<T>::getRoot(){
 }
 
 template <class T>
-StatusType AVLtree<T>::postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item)){
+void AVLtree<T>::postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item)){
     if (target == nullptr)
     {
-        return SUCCESS;
+        return ;
     }
-    if (postOrder(target->left_son, doSomething) == SUCCESS)
-    {
-        return SUCCESS;
-    }
-    if (postOrder(target->right_son ,doSomething) == SUCCESS)
-    {
-        return SUCCESS;
-    }
+    postOrder(target->left_son, doSomething);
+    postOrder(target->right_son ,doSomething);
     doSomething(target);
-    return SUCCESS;
-
 }
 
 template <class T>
@@ -316,8 +298,8 @@ void AVLtree<T>::rebalance(AVLnode<T> *vertex){
     if(vertex->balance==2){
         vertex->left_son->balance>=0 ? rotateLeftLeft(vertex) : rotateLeftRight(vertex);
     }
-    
 }
+
 template <class T>
 void printBalance(AVLnode<T> *vertex){
  if (vertex != NULL) {
@@ -326,6 +308,7 @@ void printBalance(AVLnode<T> *vertex){
         printBalance(vertex->right);
     }
 }
+
 template <class T>
 void AVLtree<T>::printBalance() {
     printBalance(root);
@@ -426,6 +409,14 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
         {
             root = temp1;
             temp1->parent = nullptr;
+            if (temp1->right_son != nullptr)
+            {
+                to_fix = temp1->right_son;
+            }
+            else
+            {
+                to_fix = temp1;
+            }
         }
         else
         {
@@ -460,16 +451,36 @@ return SUCCESS;
 
 template <class T>
 void printVertex(AVLnode<T> *vertex) {
-    std::cout <<"info:"<< std::endl;
+    std::cout <<"info: ";
     std::cout <<vertex->info<< std::endl;
-    std::cout <<"balance:"<< std::endl;
+    std::cout <<"hieght: ";
+    std::cout <<vertex->height<< std::endl;
+    std::cout <<"balance: ";
     std::cout <<vertex->balance<< std::endl;
-    std::cout <<"left son:"<< std::endl;
-    std::cout <<vertex->left_son->info<< std::endl;
-    std::cout <<"right son:"<< std::endl;
-    std::cout <<vertex->right_son->info<< std::endl;
-    std::cout <<"parent:"<< std::endl;
-    std::cout <<vertex->parent->info<< std::endl;
+    std::cout <<"left son: ";
+    if (vertex->left_son != nullptr) 
+    {
+        std::cout <<vertex->left_son->info<< std::endl;
+    }
+    else 
+    {
+        std::cout << "no left son" << std::endl;
+    }
+    std::cout <<"right son: ";
+    if(vertex->right_son != nullptr){
+        std::cout <<vertex->right_son->info<< std::endl;
+    }
+    else std::cout<<"no right son" << std::endl;
+    std::cout <<"parent: ";
+    if (vertex->parent != nullptr)
+    {
+        std::cout <<vertex->parent->info<< std::endl;
+    }
+    else
+    {
+        std::cout << "I am the groot"<<std::endl;
+    }
+    
     std::cout << std::endl;
 }
 template <class T>

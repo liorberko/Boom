@@ -32,6 +32,5 @@ int main()
         std::cout<<"remove"<<std::endl;
         newAVL.removeVertex(newAVL.getRoot());
     }
-   // newAVL.
-    //newAVL.printTree();
+    newAVL.printTree();
 }
