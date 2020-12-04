@@ -161,6 +161,87 @@ lior/fast:
 	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/build
 .PHONY : lior/fast
 
+boom.obj: boom.cpp.obj
+
+.PHONY : boom.obj
+
+# target to build an object file
+boom.cpp.obj:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/boom.cpp.obj
+.PHONY : boom.cpp.obj
+
+boom.i: boom.cpp.i
+
+.PHONY : boom.i
+
+# target to preprocess a source file
+boom.cpp.i:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/boom.cpp.i
+.PHONY : boom.cpp.i
+
+boom.s: boom.cpp.s
+
+.PHONY : boom.s
+
+# target to generate assembly for a file
+boom.cpp.s:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/boom.cpp.s
+.PHONY : boom.cpp.s
+
+course.obj: course.cpp.obj
+
+.PHONY : course.obj
+
+# target to build an object file
+course.cpp.obj:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/course.cpp.obj
+.PHONY : course.cpp.obj
+
+course.i: course.cpp.i
+
+.PHONY : course.i
+
+# target to preprocess a source file
+course.cpp.i:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/course.cpp.i
+.PHONY : course.cpp.i
+
+course.s: course.cpp.s
+
+.PHONY : course.s
+
+# target to generate assembly for a file
+course.cpp.s:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/course.cpp.s
+.PHONY : course.cpp.s
+
+lecture.obj: lecture.cpp.obj
+
+.PHONY : lecture.obj
+
+# target to build an object file
+lecture.cpp.obj:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/lecture.cpp.obj
+.PHONY : lecture.cpp.obj
+
+lecture.i: lecture.cpp.i
+
+.PHONY : lecture.i
+
+# target to preprocess a source file
+lecture.cpp.i:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/lecture.cpp.i
+.PHONY : lecture.cpp.i
+
+lecture.s: lecture.cpp.s
+
+.PHONY : lecture.s
+
+# target to generate assembly for a file
+lecture.cpp.s:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/lecture.cpp.s
+.PHONY : lecture.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -199,6 +280,15 @@ help:
 	@echo ... package_source
 	@echo ... rebuild_cache
 	@echo ... lior
+	@echo ... boom.obj
+	@echo ... boom.i
+	@echo ... boom.s
+	@echo ... course.obj
+	@echo ... course.i
+	@echo ... course.s
+	@echo ... lecture.obj
+	@echo ... lecture.i
+	@echo ... lecture.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

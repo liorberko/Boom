@@ -3,7 +3,6 @@
 #include "AVLnode.h"
 #include "library.h"
 #include "array.h"
-#include "course.h"
 
 struct lectureKey{
         int lectureID;

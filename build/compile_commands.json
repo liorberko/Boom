@@ -3,5 +3,20 @@
   "directory": "C:/Users/Lior/Desktop/technion/data_stract/Boom/build",
   "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe    -g   -o CMakeFiles\\lior.dir\\main.cpp.obj -c C:\\Users\\Lior\\Desktop\\technion\\data_stract\\Boom\\main.cpp",
   "file": "C:/Users/Lior/Desktop/technion/data_stract/Boom/main.cpp"
+},
+{
+  "directory": "C:/Users/Lior/Desktop/technion/data_stract/Boom/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe    -g   -o CMakeFiles\\lior.dir\\course.cpp.obj -c C:\\Users\\Lior\\Desktop\\technion\\data_stract\\Boom\\course.cpp",
+  "file": "C:/Users/Lior/Desktop/technion/data_stract/Boom/course.cpp"
+},
+{
+  "directory": "C:/Users/Lior/Desktop/technion/data_stract/Boom/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe    -g   -o CMakeFiles\\lior.dir\\lecture.cpp.obj -c C:\\Users\\Lior\\Desktop\\technion\\data_stract\\Boom\\lecture.cpp",
+  "file": "C:/Users/Lior/Desktop/technion/data_stract/Boom/lecture.cpp"
+},
+{
+  "directory": "C:/Users/Lior/Desktop/technion/data_stract/Boom/build",
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe    -g   -o CMakeFiles\\lior.dir\\boom.cpp.obj -c C:\\Users\\Lior\\Desktop\\technion\\data_stract\\Boom\\boom.cpp",
+  "file": "C:/Users/Lior/Desktop/technion/data_stract/Boom/boom.cpp"
 }
 ]

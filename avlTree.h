@@ -145,10 +145,10 @@ StatusType AVLtree<T,M>::addVertex(AVLnode<T,M> *new_vertex)  {
     AVLnode<T,M> *parent; // so we have a grasp on parent vertex
     while(true)
     {
-        if(current_vertex->info==new_vertex->info) return FAILURE; // this vertex already exists.
+        if(current_vertex->info == new_vertex->info) return SUCCESS; // this vertex already exists.
         parent=current_vertex;
         bool procede_left;
-        if(current_vertex->info>new_vertex->info) procede_left = true;// if current node bigger then new node, we need to go left.
+        if(current_vertex->info > new_vertex->info) procede_left = true;// if current node bigger then new node, we need to go left.
         else procede_left = false;// else we need to go right
         current_vertex = procede_left ? current_vertex->left_son : current_vertex->right_son;
         //when adding a new vertex it must become a leaf at first

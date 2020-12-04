@@ -86,19 +86,64 @@ CMakeFiles/lior.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lior.dir/main.cpp.s"
 	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Lior\Desktop\technion\data_stract\Boom\main.cpp -o CMakeFiles\lior.dir\main.cpp.s
 
+CMakeFiles/lior.dir/course.cpp.obj: CMakeFiles/lior.dir/flags.make
+CMakeFiles/lior.dir/course.cpp.obj: ../course.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Lior\Desktop\technion\data_stract\Boom\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/lior.dir/course.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\lior.dir\course.cpp.obj -c C:\Users\Lior\Desktop\technion\data_stract\Boom\course.cpp
+
+CMakeFiles/lior.dir/course.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lior.dir/course.cpp.i"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Lior\Desktop\technion\data_stract\Boom\course.cpp > CMakeFiles\lior.dir\course.cpp.i
+
+CMakeFiles/lior.dir/course.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lior.dir/course.cpp.s"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Lior\Desktop\technion\data_stract\Boom\course.cpp -o CMakeFiles\lior.dir\course.cpp.s
+
+CMakeFiles/lior.dir/lecture.cpp.obj: CMakeFiles/lior.dir/flags.make
+CMakeFiles/lior.dir/lecture.cpp.obj: ../lecture.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Lior\Desktop\technion\data_stract\Boom\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/lior.dir/lecture.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\lior.dir\lecture.cpp.obj -c C:\Users\Lior\Desktop\technion\data_stract\Boom\lecture.cpp
+
+CMakeFiles/lior.dir/lecture.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lior.dir/lecture.cpp.i"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Lior\Desktop\technion\data_stract\Boom\lecture.cpp > CMakeFiles\lior.dir\lecture.cpp.i
+
+CMakeFiles/lior.dir/lecture.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lior.dir/lecture.cpp.s"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Lior\Desktop\technion\data_stract\Boom\lecture.cpp -o CMakeFiles\lior.dir\lecture.cpp.s
+
+CMakeFiles/lior.dir/boom.cpp.obj: CMakeFiles/lior.dir/flags.make
+CMakeFiles/lior.dir/boom.cpp.obj: ../boom.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Lior\Desktop\technion\data_stract\Boom\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/lior.dir/boom.cpp.obj"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\lior.dir\boom.cpp.obj -c C:\Users\Lior\Desktop\technion\data_stract\Boom\boom.cpp
+
+CMakeFiles/lior.dir/boom.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lior.dir/boom.cpp.i"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Lior\Desktop\technion\data_stract\Boom\boom.cpp > CMakeFiles\lior.dir\boom.cpp.i
+
+CMakeFiles/lior.dir/boom.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lior.dir/boom.cpp.s"
+	C:\TDM-GCC-64\bin\x86_64-w64-mingw32-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Lior\Desktop\technion\data_stract\Boom\boom.cpp -o CMakeFiles\lior.dir\boom.cpp.s
+
 # Object files for target lior
 lior_OBJECTS = \
-"CMakeFiles/lior.dir/main.cpp.obj"
+"CMakeFiles/lior.dir/main.cpp.obj" \
+"CMakeFiles/lior.dir/course.cpp.obj" \
+"CMakeFiles/lior.dir/lecture.cpp.obj" \
+"CMakeFiles/lior.dir/boom.cpp.obj"
 
 # External object files for target lior
 lior_EXTERNAL_OBJECTS =
 
 lior.exe: CMakeFiles/lior.dir/main.cpp.obj
+lior.exe: CMakeFiles/lior.dir/course.cpp.obj
+lior.exe: CMakeFiles/lior.dir/lecture.cpp.obj
+lior.exe: CMakeFiles/lior.dir/boom.cpp.obj
 lior.exe: CMakeFiles/lior.dir/build.make
 lior.exe: CMakeFiles/lior.dir/linklibs.rsp
 lior.exe: CMakeFiles/lior.dir/objects1.rsp
 lior.exe: CMakeFiles/lior.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Lior\Desktop\technion\data_stract\Boom\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable lior.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Lior\Desktop\technion\data_stract\Boom\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable lior.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\lior.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
