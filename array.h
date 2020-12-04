@@ -11,24 +11,24 @@ private:
     int max_size;
 public:
   
-    explicit array(int size) : data(new T[size]), max_size(size) { }
-    array() : data(nullptr), max_size(0) { };
+    array(int size) : data(new T[size]), max_size(size) { }
+    array() : data(nullptr), max_size(0) { }
 
-    array(const array& arr) : max_size(arr.size())
-    {
-        T* new_data = new T[arr.size()];
-        try
-        {
-            for (int i =0 ; i < arr.size(); i++)
-            {
-                new_data[i] = arr[i];
-            }
-        } catch (...) {
-            delete[] new_data;
-            throw;
-        }
-        data = new_data;
-    }
+    // array(const array& arr) : max_size(arr.size())
+    // {
+    //     T* new_data = new T[arr.size()];
+    //     try
+    //     {
+    //         for (int i =0 ; i < arr.size(); i++)
+    //         {
+    //             new_data[i] = arr[i];
+    //         }
+    //     } catch (...) {
+    //         delete[] new_data;
+    //         throw;
+    //     }
+    //     data = new_data;
+    // }
     
     ~array()
     {

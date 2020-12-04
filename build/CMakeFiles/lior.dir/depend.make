@@ -3,7 +3,9 @@
 
 CMakeFiles/lior.dir/main.cpp.obj: ../AVLnode.h
 CMakeFiles/lior.dir/main.cpp.obj: ../AVLtree.h
+CMakeFiles/lior.dir/main.cpp.obj: ../array.h
 CMakeFiles/lior.dir/main.cpp.obj: ../course.h
+CMakeFiles/lior.dir/main.cpp.obj: ../lecture.h
 CMakeFiles/lior.dir/main.cpp.obj: ../library.h
 CMakeFiles/lior.dir/main.cpp.obj: ../main.cpp
 

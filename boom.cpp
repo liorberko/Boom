@@ -26,7 +26,7 @@ bool boom::GetMostViewedClasses(int numOfClasses, int *courses, int *classes)
 
 }
 
-~boom()
+boom::~boom()
 {
 
 }

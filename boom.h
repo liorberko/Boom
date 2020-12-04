@@ -9,8 +9,8 @@
 class boom
 {
 private:
-    AVLtree<course> courses;
-    AVLtree<lecture> lectures;
+    AVLtree<course,int> courses;
+    AVLtree<lecture, lectureKey> lectures;
     int class_counter;
 public:
     boom()=default;

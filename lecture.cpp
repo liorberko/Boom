@@ -2,28 +2,28 @@
 
 bool lecture::operator<(const lecture target) const 
 {
-    if(viewTime < target.viewTime){
+    if(key.viewTime < target.key.viewTime){
         return true;
     }
-    if (viewTime == target.viewTime && lectureID > target.lectureID)
+    if (key.viewTime == target.key.viewTime && key.lectureID > target.key.lectureID)
     {
         return true;
     }
-    else if (viewTime == target.viewTime && lectureID==target.lectureID && courseID > target.courseID){
+    else if (key.viewTime == target.key.viewTime && key.lectureID==target.key.lectureID && key.courseID > target.key.courseID){
         return true;
     }
     return false;
 }
 bool lecture::operator>(const lecture target) const 
 {
-    if(viewTime > target.viewTime){
+    if(key.viewTime > target.key.viewTime){
         return true;
     }
-    if (viewTime == target.viewTime && lectureID < target.lectureID)
+    if (key.viewTime == target.key.viewTime && key.lectureID < target.key.lectureID)
     {
         return true;
     }
-    else if (viewTime == target.viewTime && lectureID==target.lectureID && courseID < target.courseID){
+    else if (key.viewTime == target.key.viewTime && key.lectureID==target.key.lectureID && key.courseID < target.key.courseID){
         return true;
     }
     return false;
@@ -31,7 +31,7 @@ bool lecture::operator>(const lecture target) const
 
 bool lecture::operator==(const lecture target) const 
 {
-    if ((lectureID == target.lectureID) && (courseID == target.courseID) && (viewTime == target.viewTime))
+    if ((key.lectureID == target.key.lectureID) && (key.courseID == target.key.courseID) && (key.viewTime == target.key.viewTime))
     {
         return true;
     }
@@ -43,29 +43,29 @@ lecture& lecture::operator=(const lecture target) {
     {
         return *this;
     }
-    this->lectureID=target.courseID;
-    this->courseID=target.courseID;
-    this->viewTime=target.viewTime;
+    this->key.lectureID=target.key.courseID;
+    this->key.courseID=target.key.courseID;
+    this->key.viewTime=target.key.viewTime;
     return *this;
 }
 
 std::ostream& operator<<(std::ostream& out, const lecture target) 
 {
-    out << "lecture id: " << target.lectureID << std::endl;
-    out << "course id: " << target.courseID << std::endl;
-    out << "lecture view time: " << target.viewTime << std::endl;
+    out << "lecture id: " << target.key.lectureID << std::endl;
+    out << "course id: " << target.key.courseID << std::endl;
+    out << "lecture view time: " << target.key.viewTime << std::endl;
 }
 int lecture::getLectureID()
 {
-    return lectureID;
+    return key.lectureID;
 }
 
 int lecture::getCourseID()
 {
-    return courseID;
+    return key.courseID;
 }
 
 int lecture::getViewTime()
 {
-    return viewTime;
+    return key.viewTime;
 }

@@ -3,40 +3,42 @@
 #include "AVLnode.h"
 #include "library.h"
 #include <iostream>
+#include "course.h"
+
 template <class T , class M>
 class AVLtree
 {
     AVLnode<T,M> *root;
-    AVLnode<T> *biggest;
-    AVLnode<T> *smallest;
-    AVLnode<T>* rotateLeftLeft(AVLnode<T> *vertex);
-    AVLnode<T>* rotateRightRight(AVLnode<T> *vertex);
-    AVLnode<T>* rotateLeftRight(AVLnode<T> *vertex);
-    AVLnode<T>* rotateRightLeft(AVLnode<T> *vertex);
-    int setHeight(AVLnode<T> *vertex);
-    void rebalance(AVLnode<T> *vertex);
-    void setBalance(AVLnode<T> *vertex);
+    AVLnode<T, M> *biggest;
+    AVLnode<T, M> *smallest;
+    AVLnode<T, M>* rotateLeftLeft(AVLnode<T, M> *vertex);
+    AVLnode<T, M>* rotateRightRight(AVLnode<T, M> *vertex);
+    AVLnode<T, M>* rotateLeftRight(AVLnode<T, M> *vertex);
+    AVLnode<T, M>* rotateRightLeft(AVLnode<T, M> *vertex);
+    int setHeight(AVLnode<T, M> *vertex);
+    void rebalance(AVLnode<T, M> *vertex);
+    void setBalance(AVLnode<T, M> *vertex);
 
     public:
     AVLtree();
     ~AVLtree();
-    AVLnode<T>* getRoot();
-    StatusType addVertex(AVLnode<T> *new_vertex);
-    StatusType removeVertex(AVLnode<T> *new_vertex);
-    StatusType applyFromRight(int &num, void (*doSomething)(AVLnode<T> *item, int &max_actions));
-    static void deleteNode(AVLnode<T> *toDelete);
-    AVLnode<T>* find(T to_find);
+    AVLnode<T,M>* getRoot();
+    StatusType addVertex(AVLnode<T,M> *new_vertex);
+    StatusType removeVertex(AVLnode<T,M> *new_vertex);
+    StatusType applyFromRight(int &num, void (*doSomething)(AVLnode<T,M> *item, int &max_actions));
+    static void deleteNode(AVLnode<T,M> *toDelete);
+    AVLnode<T,M>* find(M to_find);
     void printBalance();
     void printTree();
-    void inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
-    void postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item));
+    void inOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item));
+    void postOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item));
 };
 
 /**************************************/
 /*      Explore function section      */
 /**************************************/
-template <class T>
-void AVLtree<T>::inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item)){
+template <class T, class M>
+void AVLtree<T,M>::inOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item)){
     if (target == nullptr)
     {
         return ;
@@ -46,13 +48,13 @@ void AVLtree<T>::inOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *ite
     inOrder(target->right_son, doSomething);  
 }
 
-template <class T>
-AVLnode<T>* AVLtree<T>::getRoot(){
+template <class T, class M>
+AVLnode<T,M>* AVLtree<T,M>::getRoot(){
     return root;
 }
 
-template <class T>
-void AVLtree<T>::postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item)){
+template <class T, class M>
+void AVLtree<T,M>::postOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item)){
     if (target == nullptr)
     {
         return ;
@@ -62,8 +64,8 @@ void AVLtree<T>::postOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *i
     doSomething(target);
 }
 
-template <class T>
-int reversInOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item, int &max_actions),int &num){
+template <class T, class M>
+int reversInOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item, int &max_actions),int &num){
     if ((target == nullptr) || (num <= 0))
     {
         return 0;
@@ -80,8 +82,8 @@ int reversInOrder(AVLnode<T> *target, void (*doSomething)(AVLnode<T> *item, int 
     return temp; 
 }
 
-template <class T>
-StatusType applyFromRightHelper(int &num, AVLnode<T>* target, void (*doSomething)(AVLnode<T> *item, int &max_actions))  
+template <class T, class M>
+StatusType applyFromRightHelper(int &num, AVLnode<T,M>* target, void (*doSomething)(AVLnode<T,M> *item, int &max_actions))  
 {
     if ((target == nullptr) || (num == 0))
     {
@@ -97,8 +99,8 @@ StatusType applyFromRightHelper(int &num, AVLnode<T>* target, void (*doSomething
     return SUCCESS;
 }
 
-template <class T>
-StatusType AVLtree<T>::applyFromRight(int &num, void (*doSomething)(AVLnode<T> *item, int &max_actions))  
+template <class T, class M>
+StatusType AVLtree<T,M>::applyFromRight(int &num, void (*doSomething)(AVLnode<T,M> *item, int &max_actions))  
 {
     return applyFromRightHelper(num, biggest, doSomething);
 }
@@ -106,19 +108,19 @@ StatusType AVLtree<T>::applyFromRight(int &num, void (*doSomething)(AVLnode<T> *
 /**************************************/
 /*     C'tors and D'tors section      */
 /**************************************/
-template <class T>
-AVLtree<T>::AVLtree() : root(nullptr),biggest(nullptr),smallest(nullptr) {}
+template <class T, class M>
+AVLtree<T,M>::AVLtree() : root(nullptr),biggest(nullptr),smallest(nullptr) {}
 
-template <class T> 
-void AVLtree<T>::deleteNode(AVLnode<T> *toDelete)
+template <class T, class M> 
+void AVLtree<T,M>::deleteNode(AVLnode<T,M> *toDelete)
 {
     delete(toDelete);
 }
 
-template <class T>
-AVLtree<T>::~AVLtree()
+template <class T, class M>
+AVLtree<T,M>::~AVLtree()
 {
-    postOrder(root, AVLtree<T>::deleteNode);
+    postOrder(root, AVLtree<T,M>::deleteNode);
 }
 
 /****************************************/
@@ -126,8 +128,8 @@ AVLtree<T>::~AVLtree()
 /****************************************/
 
 
-template <class T>
-StatusType AVLtree<T>::addVertex(AVLnode<T> *new_vertex)  {
+template <class T, class M>
+StatusType AVLtree<T,M>::addVertex(AVLnode<T,M> *new_vertex)  {
     if(root==NULL){
         root= new_vertex;
     }
@@ -139,8 +141,8 @@ StatusType AVLtree<T>::addVertex(AVLnode<T> *new_vertex)  {
     {
         smallest = new_vertex;
     }
-    AVLnode<T> *current_vertex = root;
-    AVLnode<T> *parent; // so we have a grasp on parent vertex
+    AVLnode<T,M> *current_vertex = root;
+    AVLnode<T,M> *parent; // so we have a grasp on parent vertex
     while(true)
     {
         if(current_vertex->info==new_vertex->info) return FAILURE; // this vertex already exists.
@@ -181,10 +183,10 @@ StatusType AVLtree<T>::addVertex(AVLnode<T> *new_vertex)  {
 return SUCCESS;
 }
 
-template <class T>
-AVLnode<T>* AVLtree<T>::rotateLeftLeft(AVLnode<T> *vertex){
-    AVLnode<T> *p=vertex->parent;
-    AVLnode<T> *b=vertex->left_son;
+template <class T, class M>
+AVLnode<T,M>* AVLtree<T, M>::rotateLeftLeft(AVLnode<T,M> *vertex){
+    AVLnode<T,M> *p=vertex->parent;
+    AVLnode<T,M> *b=vertex->left_son;
     if(b->right_son!=NULL) b->right_son->parent=vertex;
     vertex->left_son = b->right_son;
     b->right_son=vertex;
@@ -208,10 +210,10 @@ AVLnode<T>* AVLtree<T>::rotateLeftLeft(AVLnode<T> *vertex){
     return b;
 }
 
-template <class T>
-AVLnode<T>* AVLtree<T>::rotateRightRight(AVLnode<T> *vertex){
-    AVLnode<T> *p=vertex->parent;
-    AVLnode<T> *c=vertex->right_son;
+template <class T, class M>
+AVLnode<T,M>* AVLtree<T,M>::rotateRightRight(AVLnode<T,M> *vertex){
+    AVLnode<T,M> *p=vertex->parent;
+    AVLnode<T,M> *c=vertex->right_son;
     if(c->left_son!=NULL) c->left_son->parent=vertex;
     vertex->right_son = c->left_son;
     c->left_son=vertex;
@@ -236,22 +238,22 @@ AVLnode<T>* AVLtree<T>::rotateRightRight(AVLnode<T> *vertex){
     return c;
     
 }
-template<class T>
-AVLnode<T>* AVLtree<T>::rotateLeftRight(AVLnode<T> *vertex){
+template<class T, class M>
+AVLnode<T,M>* AVLtree<T,M>::rotateLeftRight(AVLnode<T,M> *vertex){
     vertex->left_son=rotateRightRight(vertex->left_son);
     rotateLeftLeft(vertex);
     return vertex;
 }
 
-template<class T>
-AVLnode<T>* AVLtree<T>::rotateRightLeft(AVLnode<T> *vertex){
+template<class T, class M>
+AVLnode<T,M>* AVLtree<T,M>::rotateRightLeft(AVLnode<T,M> *vertex){
     vertex->right_son=rotateLeftLeft(vertex->right_son);
     rotateRightRight(vertex);
     return vertex;
 }
 
-template<class T>
-int AVLtree<T>::setHeight(AVLnode<T> *vertex){
+template<class T, class M>
+int AVLtree<T,M>::setHeight(AVLnode<T,M> *vertex){
     if(vertex==NULL){
         return -1;
     }
@@ -270,8 +272,8 @@ int AVLtree<T>::setHeight(AVLnode<T> *vertex){
     return 1+std::max(vertex->left_son->height, vertex->right_son->height);
 }
 
-template <class T>
-void AVLtree<T>::setBalance(AVLnode<T> *vertex) {
+template <class T, class M>
+void AVLtree<T,M>::setBalance(AVLnode<T,M> *vertex) {
     if ( vertex->left_son == nullptr && vertex->right_son == nullptr)
     {
         vertex->balance=0;
@@ -289,8 +291,8 @@ void AVLtree<T>::setBalance(AVLnode<T> *vertex) {
     }
     else vertex->balance = vertex->left_son->height - vertex->right_son->height;
 }
-template <class T>
-void AVLtree<T>::rebalance(AVLnode<T> *vertex){
+template <class T, class M>
+void AVLtree<T,M>::rebalance(AVLnode<T,M> *vertex){
     int prev_balace= vertex->balance;
     setBalance(vertex);
     if(vertex->balance==-2){
@@ -301,8 +303,8 @@ void AVLtree<T>::rebalance(AVLnode<T> *vertex){
     }
 }
 
-template <class T>
-void printBalance(AVLnode<T> *vertex){
+template <class T, class M>
+void printBalance(AVLnode<T,M> *vertex){
  if (vertex != NULL) {
         printBalance(vertex->left);
         std::cout << vertex->balance << " ";
@@ -310,17 +312,17 @@ void printBalance(AVLnode<T> *vertex){
     }
 }
 
-template <class T>
-void AVLtree<T>::printBalance() {
+template <class T, class M>
+void AVLtree<T,M>::printBalance() {
     printBalance(root);
     std::cout << std::endl;
 }
 
 
-template <class T>
-StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
+template <class T, class M>
+StatusType AVLtree<T,M>::removeVertex(AVLnode<T,M> *ver_to_remove)
 {
-    AVLnode<T> *to_fix;
+    AVLnode<T,M> *to_fix;
     if ((ver_to_remove->right_son == nullptr) &&(ver_to_remove->left_son == nullptr))
     {
         if (ver_to_remove->parent != nullptr)
@@ -370,9 +372,9 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
     }
     else
     {
-        AVLnode<T> * temp1 = ver_to_remove->right_son;
-        AVLnode<T> * temp2 = temp1->left_son;
-        AVLnode<T> * temp3 = temp1->right_son;
+        AVLnode<T,M> * temp1 = ver_to_remove->right_son;
+        AVLnode<T,M> * temp2 = temp1->left_son;
+        AVLnode<T,M> * temp3 = temp1->right_son;
         while (temp2 != nullptr)
         {
             temp3 = temp2->right_son;
@@ -432,7 +434,7 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
             }
         }
     }
-    AVLnode<T> *to_fix_balance = to_fix;
+    AVLnode<T,M> *to_fix_balance = to_fix;
     while(to_fix_balance != NULL)
     {
         to_fix_balance->height = setHeight(to_fix_balance);
@@ -450,10 +452,10 @@ StatusType AVLtree<T>::removeVertex(AVLnode<T> *ver_to_remove)
 return SUCCESS;
 }
 
-template <class T>
-void printVertex(AVLnode<T> *vertex) {
+template <class T, class M>
+void printVertex(AVLnode<T,M> *vertex) {
     std::cout <<"info: ";
-    std::cout <<vertex->info<< std::endl;
+    std::cout << vertex->info << std::endl;
     std::cout <<"hieght: ";
     std::cout <<vertex->height<< std::endl;
     std::cout <<"balance: ";
@@ -485,23 +487,28 @@ void printVertex(AVLnode<T> *vertex) {
     std::cout << std::endl;
 }
 
-template <class T>
-void AVLtree<T>::printTree() {
+template <class T, class M>
+void AVLtree<T,M>::printTree() {
     inOrder(root,printVertex);
     std::cout <<"the end"<< std::endl;
 }
 
-template <class T>
-AVLnode<T,M>* find(T to_find){
-    if(root->info == to_find) return root;
-    if(root->info > to_find){
-        if(this->left_son != nullptr) find(this->left_son,to_find);
-        else return NULL;
+
+template <class T, class M>
+AVLnode<T,M>* findHelper(AVLnode<T,M>* begin, M to_find){
+    if (begin == nullptr)
+    {
+        return nullptr;
     }
-    if(root->info < to_find){
-        if(this->right_son != nullptr) find(this->right_son, to_find);
-        else return NULL;
-    } 
+    if(begin->key == to_find) return begin;
+    if(begin->key > to_find) return findHelper(begin->left_son,to_find);
+    if(begin->key < to_find) return findHelper(begin->right_son, to_find);
+} 
+
+template <class T, class M>
+AVLnode<T,M>* AVLtree<T,M>::find(M to_find)
+{
+    return findHelper(root, to_find);
 }
 
 #endif  
