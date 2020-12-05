@@ -25,13 +25,32 @@ class AVLtree
     AVLnode<T,M>* getRoot();
     StatusType addVertex(AVLnode<T,M> *new_vertex);
     StatusType removeVertex(AVLnode<T,M> *new_vertex);
-    StatusType applyFromRight(int &num, void (*doSomething)(AVLnode<T,M> *item, int &max_actions));
+    StatusType applyFromRight
+    (int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions), int* courses,int* classes);  
+    StatusType applyFromLeft
+    (int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int* courses,int* classes);  
     static void deleteNode(AVLnode<T,M> *toDelete);
     AVLnode<T,M>* find(M to_find);
     void printBalance();
     void printTree();
     void inOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item));
     void postOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item));
+    // /*********************************/
+    // /*       Exception Section       */
+    // /*********************************/
+    // class AVLnodeDoesNotExict : public Exception
+    // {
+    // private:
+    //     const char* description = "AVLnode does not exict";
+    // public:
+    //     AccessIllegalElement() = default;
+    //     ~AccessIllegalElement() = default;
+    //     const char* what() const noexcept override
+    //     {
+    //         return description;
+    //     }
+    // };
+
 };
 
 /**************************************/
@@ -65,34 +84,35 @@ void AVLtree<T,M>::postOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T
 }
 
 template <class T, class M>
-int reversInOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item, int &max_actions),int &num){
+int reversInOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int &num, int* &courses,int* &classes){
     if ((target == nullptr) || (num <= 0))
     {
         return 0;
     }
-    int temp = reversInOrder(target->right_son, doSomething ,num);
+    int temp = reversInOrder(target->right_son, doSomething ,num, courses,classes);
     if (num <= 0)
     {
         return temp;
     }
-    doSomething(target,num);
+    doSomething(target, courses,classes,num);
     num--;
     temp++;
-    temp += reversInOrder(target->left_son, doSomething, num);
+    temp += reversInOrder(target->left_son, doSomething, num, courses,classes);
     return temp; 
 }
 
 template <class T, class M>
-StatusType applyFromRightHelper(int &num, AVLnode<T,M>* target, void (*doSomething)(AVLnode<T,M> *item, int &max_actions))  
+StatusType applyFromRightHelper
+(int &num, AVLnode<T,M>* target, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions), int* &courses,int* &classes)  
 {
     if ((target == nullptr) || (num == 0))
     {
         return SUCCESS;
     }
-    doSomething(target, num);
+    doSomething(target, courses,classes, num);
     num--;
-    int temp = reversInOrder(target->left_son , doSomething, num );
-    if (applyFromRightHelper(&num,target->parent,doSomething)!=SUCCESS)
+    reversInOrder(target->left_son , doSomething, num , courses,classes);
+    if (applyFromRightHelper(num,target->parent,doSomething, courses,classes)!=SUCCESS)
     {
         return FAILURE;
     } 
@@ -100,9 +120,51 @@ StatusType applyFromRightHelper(int &num, AVLnode<T,M>* target, void (*doSomethi
 }
 
 template <class T, class M>
-StatusType AVLtree<T,M>::applyFromRight(int &num, void (*doSomething)(AVLnode<T,M> *item, int &max_actions))  
+StatusType AVLtree<T,M>::applyFromRight(int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions), int* courses,int* classes)  
 {
-    return applyFromRightHelper(num, biggest, doSomething);
+    return applyFromRightHelper(num, biggest, doSomething, courses,classes);
+}
+
+
+template <class T, class M>
+int superInOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int &num,int* &courses,int* &classes){
+    if ((target == nullptr) || (num <= 0))
+    {
+        return 0;
+    }
+    int temp = superInOrder(target->left_son, doSomething ,num, courses,classes);
+    if (num <= 0)
+    {
+        return temp;
+    }
+    doSomething(target, courses,classes,num);
+    num--;
+    temp++;
+    temp += superInOrder(target->left_son, doSomething ,num, courses,classes);
+    return temp; 
+}
+
+template <class T, class M>
+StatusType applyFromLeftHelper(int &num, AVLnode<T,M>* target, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int* &courses,int* &classes)  
+{
+    if ((target == nullptr) || (num == 0))
+    {
+        return SUCCESS;
+    }
+    doSomething(target,courses,classes, num);
+    num--;
+    superInOrder(target->right_son , doSomething, num  ,courses,classes);
+    if (applyFromLeftHelper(num,target->parent,doSomething, courses,classes)!=SUCCESS)
+    {
+        return FAILURE;
+    } 
+    return SUCCESS;
+}
+
+template <class T, class M>
+StatusType AVLtree<T,M>::applyFromLeft(int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int* courses,int* classes)  
+{
+    return applyFromLeftHelper(num, smallest, doSomething, courses, classes);
 }
 
 /**************************************/
@@ -322,6 +384,16 @@ void AVLtree<T,M>::printBalance() {
 template <class T, class M>
 StatusType AVLtree<T,M>::removeVertex(AVLnode<T,M> *ver_to_remove)
 {
+    if(ver_to_remove->parent==nullptr && ver_to_remove->right_son==nullptr && ver_to_remove->left_son==nullptr){
+        smallest=nullptr;
+        biggest=nullptr;
+    }
+    if(ver_to_remove == smallest && ver_to_remove -> right_son != nullptr) smallest = ver_to_remove->parent;
+    if(ver_to_remove == smallest && ver_to_remove -> parent != nullptr) smallest = ver_to_remove->parent;
+    if(ver_to_remove->right_son==nullptr && ver_to_remove->left_son==nullptr) biggest = ver_to_remove->parent;
+    if(ver_to_remove==biggest && ver_to_remove->right_son != nullptr) biggest = ver_to_remove->right_son;
+    if(ver_to_remove==biggest && ver_to_remove->right_son==nullptr) biggest = ver_to_remove->left_son;
+
     AVLnode<T,M> *to_fix;
     if ((ver_to_remove->right_son == nullptr) &&(ver_to_remove->left_son == nullptr))
     {
@@ -503,6 +575,7 @@ AVLnode<T,M>* findHelper(AVLnode<T,M>* begin, M to_find){
     if(begin->key == to_find) return begin;
     if(begin->key > to_find) return findHelper(begin->left_son,to_find);
     if(begin->key < to_find) return findHelper(begin->right_son, to_find);
+    return nullptr;
 } 
 
 template <class T, class M>

@@ -56,17 +56,22 @@ std::ostream& operator<<(std::ostream& out, const lecture target)
     out << "lecture view time: " << target.key.viewTime << std::endl;
     return out;
 }
-int lecture::getLectureID()
+int& lecture::getLectureID()
 {
     return key.lectureID;
 }
 
-int lecture::getCourseID()
+int& lecture::getCourseID()
 {
     return key.courseID;
 }
 
-int lecture::getViewTime()
+int& lecture::getViewTime()
 {
     return key.viewTime;
+}
+
+lectureKey& lecture::getKey()
+{
+    return key;
 }

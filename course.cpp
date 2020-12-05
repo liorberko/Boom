@@ -47,7 +47,7 @@ int course::getNumOfClasses()
     return num_of_classes;
 }
 
-array<lecture*>& course::getLectures()
+array<AVLnode<lecture, lectureKey>*>& course::getLectures()
 {
     return lectures;
 }

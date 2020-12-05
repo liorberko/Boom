@@ -15,9 +15,10 @@ class lecture
 {
     lectureKey key;
     public:
-    int getLectureID();
-    int getCourseID();
-    int getViewTime();
+    int& getLectureID();
+    int& getCourseID();
+    int& getViewTime();
+    lectureKey& getKey();
     bool operator<(const lecture target) const ;
     bool operator>(const lecture target) const ;
     bool operator==(const lecture target) const ;

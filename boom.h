@@ -14,9 +14,13 @@ private:
     int class_counter;
 public:
     boom()=default;
-    ~boom();
 
-    bool AddCourse (int courseID, int numOfClasses);
+    ~boom(){
+        delete(&lectures);
+        delete(&courses);
+    }
+
+    bool AddCourse(int courseID, int numOfClasses);
 
     bool RemoveCourse(int courseID);
 
@@ -27,6 +31,5 @@ public:
     bool GetMostViewedClasses(int numOfClasses, int *courses, int *classes);
 
 };
-
 
 #endif /* BOOM_H */
