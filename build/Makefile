@@ -269,32 +269,32 @@ library.cpp.s:
 	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/library.cpp.s
 .PHONY : library.cpp.s
 
-main.obj: main.cpp.obj
+main1.obj: main1.cpp.obj
 
-.PHONY : main.obj
+.PHONY : main1.obj
 
 # target to build an object file
-main.cpp.obj:
-	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/main.cpp.obj
-.PHONY : main.cpp.obj
+main1.cpp.obj:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/main1.cpp.obj
+.PHONY : main1.cpp.obj
 
-main.i: main.cpp.i
+main1.i: main1.cpp.i
 
-.PHONY : main.i
+.PHONY : main1.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/main.cpp.i
-.PHONY : main.cpp.i
+main1.cpp.i:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/main1.cpp.i
+.PHONY : main1.cpp.i
 
-main.s: main.cpp.s
+main1.s: main1.cpp.s
 
-.PHONY : main.s
+.PHONY : main1.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/main.cpp.s
-.PHONY : main.cpp.s
+main1.cpp.s:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/main1.cpp.s
+.PHONY : main1.cpp.s
 
 # Help Target
 help:
@@ -319,9 +319,9 @@ help:
 	@echo ... library.obj
 	@echo ... library.i
 	@echo ... library.s
-	@echo ... main.obj
-	@echo ... main.i
-	@echo ... main.s
+	@echo ... main1.obj
+	@echo ... main1.i
+	@echo ... main1.s
 .PHONY : help
 
 

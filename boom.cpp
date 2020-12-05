@@ -3,7 +3,7 @@
 bool boom::AddCourse (int courseID, int numOfClasses)
 {
     AVLnode<course,int>*check= courses.find(courseID);
-    if(check != nullptr) return FAILURE;
+    if(check != nullptr) return false;
     course* new_course = new course(courseID,numOfClasses);
     AVLnode<course, int>* new_ver = new AVLnode<course, int>(*new_course, courseID);
     courses.addVertex(new_ver);
@@ -13,9 +13,8 @@ bool boom::AddCourse (int courseID, int numOfClasses)
 
 bool boom::RemoveCourse(int courseID)
 {
-    AVLnode<course,int>*check= courses.find(courseID);
-    if(check == nullptr) return FAILURE;
     AVLnode<course,int>* course_to_delete = courses.find(courseID);
+    if(course_to_delete == nullptr) return false;
     class_counter-=course_to_delete->info.getNumOfClasses();
     array<AVLnode<lecture, lectureKey>*> lectures_to_delete = course_to_delete->info.getLectures();
     int num_of_classes = course_to_delete->info.getNumOfClasses();
@@ -28,21 +27,26 @@ bool boom::RemoveCourse(int courseID)
     return false;
 }
 
-bool boom::WatchClass(int courseID, int classID, int time)
+StatusType boom::WatchClass(int courseID, int classID, int time)
 {   
-    AVLnode<course,int>*check= courses.find(courseID);
-    if(check == nullptr) return FAILURE;
     AVLnode<course,int>* temp = courses.find(courseID);
+    if(temp == nullptr) return FAILURE;
+    if (temp->info.getNumOfClasses() < (classID +1))
+    {
+        return INVALID_INPUT;
+    }
     AVLnode<lecture, lectureKey>* lec = (temp->info.getLectures())[classID];
-    if (lectures.removeVertex(lec) != SUCCESS) return false;
+    if (lectures.removeVertex(lec) != SUCCESS) return FAILURE;
     lec->info.getViewTime() += time;
-    if (lectures.addVertex(lec) != SUCCESS) return false;
-    return true;
+    lec->key.viewTime += time;
+    if (lectures.addVertex(lec) != SUCCESS) return FAILURE;
+    return SUCCESS;
 }
 
 int boom::TimeViewed(int courseID, int classID){
     AVLnode<course,int>* wanted_course = courses.find(courseID);
-    if ((wanted_course == NULL)|| (wanted_course->info.getNumOfClasses() <classID)) return -1;
+    if (wanted_course == NULL) return -1;
+    if (wanted_course->info.getNumOfClasses() <= classID) return -2;
     array<AVLnode<lecture, lectureKey>*> wanted_course_lectures = wanted_course->info.getLectures();
     int TimeViewed = wanted_course_lectures[classID]->info.getViewTime();
     return TimeViewed;

@@ -22,6 +22,10 @@ iostream
 course.h
 C:/Users/Lior/Desktop/technion/data_stract/Boom/course.h
 
+C:/Users/Lior/Desktop/technion/data_stract/Boom/BoomException.h
+iostream
+-
+
 C:/Users/Lior/Desktop/technion/data_stract/Boom/array.h
 iostream
 -
@@ -41,10 +45,8 @@ AVLtree.h
 C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLtree.h
 course.h
 C:/Users/Lior/Desktop/technion/data_stract/Boom/course.h
-
-C:/Users/Lior/Desktop/technion/data_stract/Boom/course.cpp
-course.h
-C:/Users/Lior/Desktop/technion/data_stract/Boom/course.h
+BoomException.h
+C:/Users/Lior/Desktop/technion/data_stract/Boom/BoomException.h
 
 C:/Users/Lior/Desktop/technion/data_stract/Boom/course.h
 AVLnode.h
@@ -56,10 +58,6 @@ C:/Users/Lior/Desktop/technion/data_stract/Boom/array.h
 lecture.h
 C:/Users/Lior/Desktop/technion/data_stract/Boom/lecture.h
 
-C:/Users/Lior/Desktop/technion/data_stract/Boom/lecture.cpp
-lecture.h
-C:/Users/Lior/Desktop/technion/data_stract/Boom/lecture.h
-
 C:/Users/Lior/Desktop/technion/data_stract/Boom/lecture.h
 AVLnode.h
 C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLnode.h
@@ -68,21 +66,5 @@ C:/Users/Lior/Desktop/technion/data_stract/Boom/library.h
 array.h
 C:/Users/Lior/Desktop/technion/data_stract/Boom/array.h
 
-C:/Users/Lior/Desktop/technion/data_stract/Boom/library.cpp
-library.h
 C:/Users/Lior/Desktop/technion/data_stract/Boom/library.h
-boom.h
-C:/Users/Lior/Desktop/technion/data_stract/Boom/boom.h
-
-C:/Users/Lior/Desktop/technion/data_stract/Boom/library.h
-
-C:/Users/Lior/Desktop/technion/data_stract/Boom/main.cpp
-iostream
--
-AVLnode.h
-C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLnode.h
-AVLtree.h
-C:/Users/Lior/Desktop/technion/data_stract/Boom/AVLtree.h
-course.h
-C:/Users/Lior/Desktop/technion/data_stract/Boom/course.h
 

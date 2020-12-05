@@ -5,6 +5,7 @@
 #include "AVLnode.h"
 #include "AVLtree.h"
 #include "course.h"
+#include "BoomException.h"
 
 class boom
 {
@@ -24,13 +25,11 @@ public:
 
     bool RemoveCourse(int courseID);
 
-    bool WatchClass(int courseID, int classID, int time);
+    StatusType WatchClass(int courseID, int classID, int time);
 
     int TimeViewed(int courseID, int classID);
 
     bool GetMostViewedClasses(int numOfClasses, int *courses, int *classes);
-
-    //int& getClassCounter();
 
 };
 

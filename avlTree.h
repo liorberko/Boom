@@ -385,15 +385,23 @@ template <class T, class M>
 StatusType AVLtree<T,M>::removeVertex(AVLnode<T,M> *ver_to_remove)
 {
     if(ver_to_remove->parent==nullptr && ver_to_remove->right_son==nullptr && ver_to_remove->left_son==nullptr){
-        smallest=nullptr;
-        biggest=nullptr;
+        if (ver_to_remove == root)
+        {
+            smallest=nullptr;
+            biggest=nullptr;
+            root = nullptr;
+            return SUCCESS;
+        }
+        else
+        {
+            return SUCCESS; 
+        }
+        
     }
-    if(ver_to_remove == smallest && ver_to_remove -> right_son != nullptr) smallest = ver_to_remove->parent;
-    if(ver_to_remove == smallest && ver_to_remove -> parent != nullptr) smallest = ver_to_remove->parent;
-    if(ver_to_remove->right_son==nullptr && ver_to_remove->left_son==nullptr) biggest = ver_to_remove->parent;
-    if(ver_to_remove==biggest && ver_to_remove->right_son != nullptr) biggest = ver_to_remove->right_son;
-    if(ver_to_remove==biggest && ver_to_remove->right_son==nullptr) biggest = ver_to_remove->left_son;
-
+    if(ver_to_remove == smallest && ver_to_remove -> right_son != nullptr) smallest = ver_to_remove->right_son;
+    else if(ver_to_remove == smallest && ver_to_remove -> parent != nullptr) smallest = ver_to_remove->parent;
+    if(ver_to_remove == biggest && ver_to_remove->left_son != nullptr) biggest = ver_to_remove->left_son;
+    else if(ver_to_remove==biggest && ver_to_remove->parent != nullptr) biggest = ver_to_remove->parent;
     AVLnode<T,M> *to_fix;
     if ((ver_to_remove->right_son == nullptr) &&(ver_to_remove->left_son == nullptr))
     {

@@ -1,8 +1,8 @@
 [
 {
   "directory": "C:/Users/Lior/Desktop/technion/data_stract/Boom/build",
-  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe    -g   -o CMakeFiles\\lior.dir\\main.cpp.obj -c C:\\Users\\Lior\\Desktop\\technion\\data_stract\\Boom\\main.cpp",
-  "file": "C:/Users/Lior/Desktop/technion/data_stract/Boom/main.cpp"
+  "command": "C:\\TDM-GCC-64\\bin\\x86_64-w64-mingw32-g++.exe    -g   -o CMakeFiles\\lior.dir\\main1.cpp.obj -c C:\\Users\\Lior\\Desktop\\technion\\data_stract\\Boom\\main1.cpp",
+  "file": "C:/Users/Lior/Desktop/technion/data_stract/Boom/main1.cpp"
 },
 {
   "directory": "C:/Users/Lior/Desktop/technion/data_stract/Boom/build",

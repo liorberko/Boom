@@ -3,7 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/lior.dir/course.cpp.obj"
   "CMakeFiles/lior.dir/lecture.cpp.obj"
   "CMakeFiles/lior.dir/library.cpp.obj"
-  "CMakeFiles/lior.dir/main.cpp.obj"
+  "CMakeFiles/lior.dir/main1.cpp.obj"
   "liblior.dll.a"
   "lior.exe"
   "lior.exe.manifest"
