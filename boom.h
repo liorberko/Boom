@@ -30,6 +30,8 @@ public:
 
     bool GetMostViewedClasses(int numOfClasses, int *courses, int *classes);
 
+    //int& getClassCounter();
+
 };
 
 #endif /* BOOM_H */

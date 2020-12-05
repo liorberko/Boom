@@ -2,7 +2,7 @@
 
 bool boom::AddCourse (int courseID, int numOfClasses)
 {
-    AVLnode<T,M>*check= courses.find(courseID);
+    AVLnode<course,int>*check= courses.find(courseID);
     if(check != nullptr) return FAILURE;
     course* new_course = new course(courseID,numOfClasses);
     AVLnode<course, int>* new_ver = new AVLnode<course, int>(*new_course, courseID);
@@ -13,7 +13,7 @@ bool boom::AddCourse (int courseID, int numOfClasses)
 
 bool boom::RemoveCourse(int courseID)
 {
-    AVLnode<T,M>*check= courses.find(courseID);
+    AVLnode<course,int>*check= courses.find(courseID);
     if(check == nullptr) return FAILURE;
     AVLnode<course,int>* course_to_delete = courses.find(courseID);
     class_counter-=course_to_delete->info.getNumOfClasses();
@@ -30,7 +30,7 @@ bool boom::RemoveCourse(int courseID)
 
 bool boom::WatchClass(int courseID, int classID, int time)
 {   
-    AVLnode<T,M>*check= courses.find(courseID);
+    AVLnode<course,int>*check= courses.find(courseID);
     if(check == nullptr) return FAILURE;
     AVLnode<course,int>* temp = courses.find(courseID);
     AVLnode<lecture, lectureKey>* lec = (temp->info.getLectures())[classID];
@@ -42,7 +42,7 @@ bool boom::WatchClass(int courseID, int classID, int time)
 
 int boom::TimeViewed(int courseID, int classID){
     AVLnode<course,int>* wanted_course = courses.find(courseID);
-    if ((wanted_course == NULL)|| (wanted_course->info.getNumOfClasses() <classID) return -1;
+    if ((wanted_course == NULL)|| (wanted_course->info.getNumOfClasses() <classID)) return -1;
     array<AVLnode<lecture, lectureKey>*> wanted_course_lectures = wanted_course->info.getLectures();
     int TimeViewed = wanted_course_lectures[classID]->info.getViewTime();
     return TimeViewed;
@@ -71,7 +71,7 @@ void recieveFromCoursesTree(AVLnode<course,int> *item,int* &courses,int* &classe
 }
 
 bool boom::GetMostViewedClasses(int numOfClasses, int *courses, int *classes)
-{
+{   
     if (class_counter < numOfClasses)
     {
         return false;
@@ -85,4 +85,8 @@ bool boom::GetMostViewedClasses(int numOfClasses, int *courses, int *classes)
     }
     return true;
 }
+
+// int& boom::getClassCounter(){
+//     return boom.class_counter;
+// }
 

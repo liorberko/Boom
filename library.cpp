@@ -37,7 +37,7 @@ StatusType RemoveCourse(void *DS, int courseID)
     return SUCCESS;
 }
 
-StatusType WatchClass(void *DS, int courseID, int classID, int time
+StatusType WatchClass(void *DS, int courseID, int classID, int time)
 {
     if(courseID <=0 || classID <0 || DS==nullptr) return INVALID_INPUT;
     try{
@@ -46,6 +46,10 @@ StatusType WatchClass(void *DS, int courseID, int classID, int time
             return FAILURE;
         }
         return SUCCESS;
+    }
+    catch(...){
+        return ALLOCATION_ERROR;
+    }
 }
 
 StatusType TimeViewed(void *DS, int courseID, int classID, int *timeViewed)
@@ -54,13 +58,25 @@ StatusType TimeViewed(void *DS, int courseID, int classID, int *timeViewed)
     {
         return INVALID_INPUT;
     }
-    int res = ((boom*)DS)->TimeViewed(courseID , classID);
-    if (res == -1) return FAILURE ; 
-    
-
+    *timeViewed= ((boom*)DS)->TimeViewed(courseID , classID);
+    if (*timeViewed == FAILURE) return FAILURE ; 
+    else return SUCCESS;
 }
 
 StatusType GetMostViewedClasses(void *DS, int numOfClasses, int *courses, int *classes){
-    
+    if(numOfClasses <=0 || DS==nullptr) return INVALID_INPUT;
+    try{
+       if(!((boom*)DS)->GetMostViewedClasses(numOfClasses, courses, classes))
+        {
+            return FAILURE;
+        }
+    }
+    catch (...)
+    {
+        return ALLOCATION_ERROR;
+    }
 }
-void Quit(void** DS);
+
+void Quit(void** DS){
+    delete(boom*)(DS);
+}
