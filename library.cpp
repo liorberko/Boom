@@ -75,6 +75,7 @@ StatusType GetMostViewedClasses(void *DS, int numOfClasses, int *courses, int *c
     {
         return ALLOCATION_ERROR;
     }
+    return SUCCESS;
 }
 
 void Quit(void** DS){

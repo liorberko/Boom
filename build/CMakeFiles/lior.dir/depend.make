@@ -23,6 +23,15 @@ CMakeFiles/lior.dir/lecture.cpp.obj: ../lecture.cpp
 CMakeFiles/lior.dir/lecture.cpp.obj: ../lecture.h
 CMakeFiles/lior.dir/lecture.cpp.obj: ../library.h
 
+CMakeFiles/lior.dir/library.cpp.obj: ../AVLnode.h
+CMakeFiles/lior.dir/library.cpp.obj: ../AVLtree.h
+CMakeFiles/lior.dir/library.cpp.obj: ../array.h
+CMakeFiles/lior.dir/library.cpp.obj: ../boom.h
+CMakeFiles/lior.dir/library.cpp.obj: ../course.h
+CMakeFiles/lior.dir/library.cpp.obj: ../lecture.h
+CMakeFiles/lior.dir/library.cpp.obj: ../library.cpp
+CMakeFiles/lior.dir/library.cpp.obj: ../library.h
+
 CMakeFiles/lior.dir/main.cpp.obj: ../AVLnode.h
 CMakeFiles/lior.dir/main.cpp.obj: ../AVLtree.h
 CMakeFiles/lior.dir/main.cpp.obj: ../array.h

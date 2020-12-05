@@ -242,6 +242,33 @@ lecture.cpp.s:
 	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/lecture.cpp.s
 .PHONY : lecture.cpp.s
 
+library.obj: library.cpp.obj
+
+.PHONY : library.obj
+
+# target to build an object file
+library.cpp.obj:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/library.cpp.obj
+.PHONY : library.cpp.obj
+
+library.i: library.cpp.i
+
+.PHONY : library.i
+
+# target to preprocess a source file
+library.cpp.i:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/library.cpp.i
+.PHONY : library.cpp.i
+
+library.s: library.cpp.s
+
+.PHONY : library.s
+
+# target to generate assembly for a file
+library.cpp.s:
+	$(MAKE) -f CMakeFiles\lior.dir\build.make CMakeFiles/lior.dir/library.cpp.s
+.PHONY : library.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -289,6 +316,9 @@ help:
 	@echo ... lecture.obj
 	@echo ... lecture.i
 	@echo ... lecture.s
+	@echo ... library.obj
+	@echo ... library.i
+	@echo ... library.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
