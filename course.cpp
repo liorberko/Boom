@@ -58,5 +58,4 @@ course::~course()
     {
         delete (lectures[i]);
     }
-    delete (&lectures);
 }
