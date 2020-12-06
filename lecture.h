@@ -4,11 +4,13 @@
 #include "library.h"
 #include "array.h"
 
-struct lectureKey{
+class lectureKey{
+    public:
         int lectureID;
         int courseID;
         int viewTime;
-        lectureKey(int lectureID, int courseID, int viewTime) : lectureID(lectureID), courseID(courseID), viewTime(viewTime){}
+        lectureKey(const lectureKey& target) : lectureID(target.lectureID) , courseID(target.courseID) , viewTime(target.viewTime) {};
+        lectureKey(int lectureID, int courseID, int viewTime) : lectureID(lectureID), courseID(courseID), viewTime(viewTime){};
         ~lectureKey() = default;
     };
 class lecture 

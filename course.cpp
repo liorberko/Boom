@@ -73,6 +73,10 @@ course::~course()
     {
         if(lectures[i] != NULL)
         {
+            // if (((lectures[i])->info) != NULL)
+            // {
+            //     delete ((lectures[i])->info);
+            // }
             delete (lectures[i]);
         }
     }

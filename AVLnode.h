@@ -8,20 +8,31 @@ template <class T, class M>
 class AVLnode
 {
     public:
-    T info; 
+    T* info; 
     M key;
     int balance;
     int height;
     AVLnode<T,M>* left_son;
     AVLnode<T,M>* right_son;
     AVLnode<T,M>* parent;
-    AVLnode(T info, M key);
-    ~AVLnode() = default;
+    // AVLnode(T* info, M key);
+    AVLnode(T inf , M key) : key(key)
+    {
+        T* new_info = new T(inf);
+        info = new_info;
+    }
+    ~AVLnode() 
+    {
+        if (info != nullptr)
+        {
+            delete (info);
+        }
+    }
     AVLnode<T,M>& operator=(const AVLnode<T,M> target);
 };
 
-template <class T, class M>
-AVLnode<T,M>::AVLnode(T info, M key): info(info), key(key), balance(0), height(0), left_son(nullptr), right_son(nullptr), parent(nullptr) {}
+// template <class T, class M>
+// AVLnode<T,M>::AVLnode(T* info, M key): info(info), key(key), balance(0), height(0), left_son(nullptr), right_son(nullptr), parent(nullptr) {}
 
 template <class T, class M>
 AVLnode<T,M>& AVLnode<T,M>::operator=(const AVLnode<T,M> target)
