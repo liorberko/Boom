@@ -84,6 +84,6 @@ StatusType GetMostViewedClasses(void *DS, int numOfClasses, int *courses, int *c
 
 void Quit(void** DS){
     boom* to_delet = (boom*)(*DS);
-    delete to_delet;
+    delete (to_delet);
     (*DS) = NULL;
 }

@@ -5,14 +5,14 @@
 class BoomException : public std::exception 
 {
 public:
-    BoomException();
+    BoomException() = default;
     virtual ~BoomException() = default;
 };
 
 class IllegalArgument : public BoomException
 { 
 public:
-    IllegalArgument();
+    IllegalArgument() =default;
     ~IllegalArgument() = default;
 };
 

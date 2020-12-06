@@ -21,7 +21,7 @@
 //     {
 //         std::cout << "Add course num 444"<<std::endl;
 //     }
-//     if (AddCourse(DS, -123, 3) == FAILURE)
+//     if (AddCourse(DS, -123, 3) == INVALID_INPUT)
 //     {
 //         std::cout << "Succesfully didn't add cours -123"<<std::endl;
 //     }
@@ -29,7 +29,7 @@
 //     {
 //         std::cout << "Remove course num 444"<<std::endl;
 //     }
-//     if (WatchClass(DS, 111, 0, 1) == SUCCESS )
+//     if (WatchClass(DS, 111, 0, 3) == SUCCESS )
 //     {
 //         int temp11 = 0;
 //         int* temp1 = &temp11;
@@ -43,18 +43,18 @@
 //         TimeViewed(DS,111, 2 ,temp2);
 //         std::cout<< "WatchClass SUCCES, add "<< *temp2 << " minutes"<<std::endl;
 //     }
-//     if (WatchClass(DS, 222, 2, 3) == SUCCESS )
+//     if (WatchClass(DS, 222, 2, 2) == SUCCESS )
 //     {
 //         int temp33 = 0;
 //         int* temp3 = &temp33;
 //         TimeViewed(DS,222, 2 ,temp3);
 //         std::cout<< "WatchClass SUCCES, add "<< *temp3 << " minutes"<<std::endl;
 //     }
-//     int courses[3] = {-1,-1,-1};
-//     int classes[3] = {-1,-1,-1};
-//     if (GetMostViewedClasses(DS,3,courses,classes) == SUCCESS)
+//     int courses[8] = {-1,-1,-1,-1,-1,-1,-1,-1};
+//     int classes[8] = {-1,-1,-1,-1,-1,-1,-1,-1};
+//     if (GetMostViewedClasses(DS,8,courses,classes) == SUCCESS)
 //     {
-//         for (int i = 0; i<3 ; i++)
+//         for (int i = 0; i<8 ; i++)
 //         {
 //             std::cout << "cours: " << courses[i] << " class: " << classes[i] << std::endl; 
 //         }

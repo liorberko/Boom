@@ -53,10 +53,12 @@ int boom::TimeViewed(int courseID, int classID){
 }
 
 void recieveFromLecturesTree(AVLnode<lecture,lectureKey> *item,int* &courses,int* &classes,int &max_actions){
+    if (max_actions <= 0) return;
     *classes=item->info.getLectureID();
     classes++;
     *courses=item->info.getCourseID();
-    courses++;   
+    courses++; 
+    max_actions--;  
 }
 
 void recieveFromCoursesTree(AVLnode<course,int> *item,int* &courses,int* &classes, int &max_actions)
@@ -74,23 +76,16 @@ void recieveFromCoursesTree(AVLnode<course,int> *item,int* &courses,int* &classe
     }
 }
 
-bool boom::GetMostViewedClasses(int numOfClasses, int *courses, int *classes)
+bool boom::GetMostViewedClasses(int numOfClasses, int *courses_array, int *classes_array)
 {   
     if (class_counter < numOfClasses)
     {
         return false;
     }
-    int numOfActions = lectures.applyFromRight(numOfClasses,recieveFromLecturesTree, courses,classes);
+    lectures.applyFromRight(numOfClasses,recieveFromLecturesTree, courses_array,classes_array);
     //starting with lectures that known to be watched.
-    int res = numOfClasses-numOfActions;
-    if (res > 0){
-        //if wished to more lectures then watched, we are reaching for the courses tree.
-       lectures.applyFromLeft(res, recieveFromLecturesTree, courses + res,classes +res);
-    }
+    courses.applyFromLeft(numOfClasses, recieveFromCoursesTree, courses_array,classes_array);
     return true;
 }
 
-// int& boom::getClassCounter(){
-//     return boom.class_counter;
-// }
 

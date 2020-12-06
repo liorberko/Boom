@@ -29,7 +29,7 @@ public:
 
     int TimeViewed(int courseID, int classID);
 
-    bool GetMostViewedClasses(int numOfClasses, int *courses, int *classes);
+    bool GetMostViewedClasses(int numOfClasses, int *courses_array, int *classes_array);
 
 };
 

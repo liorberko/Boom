@@ -26,30 +26,15 @@ class AVLtree
     StatusType addVertex(AVLnode<T,M> *new_vertex);
     StatusType removeVertex(AVLnode<T,M> *new_vertex);
     StatusType applyFromRight
-    (int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions), int* courses,int* classes);  
+    (int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions), int* &courses,int* &classes);  
     StatusType applyFromLeft
-    (int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int* courses,int* classes);  
+    (int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int* &courses,int* &classes);  
     static void deleteNode(AVLnode<T,M> *toDelete);
     AVLnode<T,M>* find(M to_find);
     void printBalance();
     void printTree();
     void inOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item));
     void postOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item));
-    // /*********************************/
-    // /*       Exception Section       */
-    // /*********************************/
-    // class AVLnodeDoesNotExict : public Exception
-    // {
-    // private:
-    //     const char* description = "AVLnode does not exict";
-    // public:
-    //     AccessIllegalElement() = default;
-    //     ~AccessIllegalElement() = default;
-    //     const char* what() const noexcept override
-    //     {
-    //         return description;
-    //     }
-    // };
 
 };
 
@@ -95,7 +80,6 @@ int reversInOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item,i
         return temp;
     }
     doSomething(target, courses,classes,num);
-    num--;
     temp++;
     temp += reversInOrder(target->left_son, doSomething, num, courses,classes);
     return temp; 
@@ -110,7 +94,6 @@ StatusType applyFromRightHelper
         return SUCCESS;
     }
     doSomething(target, courses,classes, num);
-    num--;
     reversInOrder(target->left_son , doSomething, num , courses,classes);
     if (applyFromRightHelper(num,target->parent,doSomething, courses,classes)!=SUCCESS)
     {
@@ -120,7 +103,7 @@ StatusType applyFromRightHelper
 }
 
 template <class T, class M>
-StatusType AVLtree<T,M>::applyFromRight(int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions), int* courses,int* classes)  
+StatusType AVLtree<T,M>::applyFromRight(int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions), int* &courses,int* &classes)  
 {
     return applyFromRightHelper(num, biggest, doSomething, courses,classes);
 }
@@ -138,7 +121,6 @@ int superInOrder(AVLnode<T,M> *target, void (*doSomething)(AVLnode<T,M> *item,in
         return temp;
     }
     doSomething(target, courses,classes,num);
-    num--;
     temp++;
     temp += superInOrder(target->left_son, doSomething ,num, courses,classes);
     return temp; 
@@ -152,7 +134,6 @@ StatusType applyFromLeftHelper(int &num, AVLnode<T,M>* target, void (*doSomethin
         return SUCCESS;
     }
     doSomething(target,courses,classes, num);
-    num--;
     superInOrder(target->right_son , doSomething, num  ,courses,classes);
     if (applyFromLeftHelper(num,target->parent,doSomething, courses,classes)!=SUCCESS)
     {
@@ -162,7 +143,7 @@ StatusType applyFromLeftHelper(int &num, AVLnode<T,M>* target, void (*doSomethin
 }
 
 template <class T, class M>
-StatusType AVLtree<T,M>::applyFromLeft(int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int* courses,int* classes)  
+StatusType AVLtree<T,M>::applyFromLeft(int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int* &courses,int* &classes)  
 {
     return applyFromLeftHelper(num, smallest, doSomething, courses, classes);
 }
