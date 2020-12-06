@@ -24,6 +24,7 @@ bool boom::RemoveCourse(int courseID)
     }
     StatusType control=courses.removeVertex(course_to_delete);
     if(control==SUCCESS) return true;
+    delete (course_to_delete);
     return false;
 }
 

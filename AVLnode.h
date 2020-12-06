@@ -12,9 +12,9 @@ class AVLnode
     M key;
     int balance;
     int height;
-    AVLnode* left_son;
-    AVLnode* right_son;
-    AVLnode* parent;
+    AVLnode<T,M>* left_son;
+    AVLnode<T,M>* right_son;
+    AVLnode<T,M>* parent;
     AVLnode(T info, M key);
     ~AVLnode() = default;
     AVLnode<T,M>& operator=(const AVLnode<T,M> target);
