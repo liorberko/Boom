@@ -62,7 +62,7 @@ int course::getNumOfClasses()
     return num_of_classes;
 }
 
-array<AVLnode<lecture, lectureKey>*>& course::getLectures()
+AVLnode<lecture, lectureKey>** course::getLectures()
 {
     return lectures;
 }

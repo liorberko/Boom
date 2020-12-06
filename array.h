@@ -6,10 +6,9 @@
 template<typename T>
 class array
 {
-private:
+public:
     T* data;
     int max_size;
-public:
   
     array(int size) : data(new T[size]), max_size(size) { }
     array() : data(nullptr), max_size(0) { }

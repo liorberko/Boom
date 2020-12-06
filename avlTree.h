@@ -162,11 +162,23 @@ void deleteNode(AVLnode<T,M> *toDelete)
     }
 }
 
+// template <class T, class M>
+// void inorderDelete(AVLnode<T,M>* node){
+//     if (node == nullptr) return;
+//     inorderDelete(node->right_son);
+//     delete node;
+//     inorderDelete(node->left_son);
+// }
 template <class T, class M>
 AVLtree<T,M>::~AVLtree()
 {
     postOrder(root, deleteNode);
 }
+// template <class T, class M>
+// AVLtree<T,M>::~AVLtree()
+// {
+//     inorderDelete(root);
+// }
 
 /****************************************/
 /*     Method implementation section    */

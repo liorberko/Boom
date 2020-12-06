@@ -11,19 +11,44 @@ bool boom::AddCourse (int courseID, int numOfClasses)
     return true;
 }
 
+// void inorderDelete(AVLnode<course,int>* node){
+//     if (node == nullptr) return;
+//     inorderDelete(node->right_son);
+//     AVLnode<lecture, lectureKey>* courses = node->info.getLectures();
+//     for(int i=0; i<node->info.getNumOfClasses() ; i++)
+//     {
+//         delete courses[i];
+//     }
+//     inorderDelete(node->left_son);
+// }
+
+
+// void inorderDelete(AVLnode<course,int>* node){
+//     if (node == nullptr) return;
+//     inorderDelete(node->right_son);
+//     AVLnode<lecture, lectureKey>** lectures = node->info.getLectures();
+//     delete[] lectures;
+//     inorderDelete(node->left_son);
+// }
+
+// boom::~boom()
+// {
+//     inorderDelete(courses.getRoot());
+// }
+
 bool boom::RemoveCourse(int courseID)
 {
     AVLnode<course,int>* course_to_delete = courses.find(courseID);
     if(course_to_delete == nullptr) return false;
     class_counter-=course_to_delete->info.getNumOfClasses();
-    array<AVLnode<lecture, lectureKey>*> lectures_to_delete = course_to_delete->info.getLectures();
+    AVLnode<lecture, lectureKey>** lectures_to_delete = course_to_delete->info.getLectures();
     int num_of_classes = course_to_delete->info.getNumOfClasses();
     for(int i=0; i<num_of_classes;i++){
         StatusType control=lectures.removeVertex(lectures_to_delete[i]);
-        if (lectures_to_delete[i] != NULL)
-        {
-            delete (lectures_to_delete[i]);
-        }
+        // if (lectures_to_delete[i] != NULL)
+        // {
+        //     delete (lectures_to_delete[i]);
+        // }
         if(control!=SUCCESS) return false;
     }
     StatusType control=courses.removeVertex(course_to_delete);
@@ -52,7 +77,7 @@ int boom::TimeViewed(int courseID, int classID){
     AVLnode<course,int>* wanted_course = courses.find(courseID);
     if (wanted_course == NULL) return -1;
     if (wanted_course->info.getNumOfClasses() <= classID) return -2;
-    array<AVLnode<lecture, lectureKey>*> wanted_course_lectures = wanted_course->info.getLectures();
+    AVLnode<lecture, lectureKey>** wanted_course_lectures = wanted_course->info.getLectures();
     int TimeViewed = wanted_course_lectures[classID]->info.getViewTime();
     return TimeViewed;
 }
