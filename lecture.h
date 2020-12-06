@@ -26,6 +26,7 @@ class lecture
     friend std::ostream& operator<<(std::ostream& out, const lecture target) ;
     lecture()  : key(0,0,0) {}
     lecture(int lectureID, int courseID, int viewTime = 0) : key(lectureID, courseID, viewTime){} 
+    lecture(const lecture& target) : key(target.key.lectureID, target.key.courseID, target.key.viewTime){}
     ~lecture() = default;
 };
 

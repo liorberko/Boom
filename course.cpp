@@ -28,7 +28,22 @@ course& course::operator=(const course target)
         return *this;
     }
     courseID = target.courseID;
+    num_of_classes = target.num_of_classes;
     lectures = target.lectures;
+    // array<AVLnode<lecture, lectureKey>*>* new_lectures = new array<AVLnode<lecture, lectureKey>*>(num_of_classes);
+    // try 
+    // {
+    //     for (int i=0; i < num_of_classes ; i++ )
+    //     {
+    //         AVLnode<lecture, lectureKey>* temp = new AVLnode<lecture, lectureKey>(target.lectures[i]);
+    //         (*new_lectures)[i] = temp;
+    //     } 
+    // } catch (...) {
+    //     delete[] new_lectures;
+    //     throw;
+    // }
+    // delete (&lectures);
+    // lectures = *new_lectures;
     return *this;
 }
 std::ostream& operator<<(std::ostream& out, const course target) 
@@ -52,10 +67,10 @@ array<AVLnode<lecture, lectureKey>*>& course::getLectures()
     return lectures;
 }
 
-course::~course()
-{
-    for(int i=0; i<num_of_classes ; i++)
-    {
-        delete (lectures[i]);
-    }
-}
+// course::~course()
+// {
+//     for(int i=0; i<num_of_classes ; i++)
+//     {
+//         delete (lectures[i]);
+//     }
+// }

@@ -20,6 +20,7 @@ bool boom::RemoveCourse(int courseID)
     int num_of_classes = course_to_delete->info.getNumOfClasses();
     for(int i=0; i<num_of_classes;i++){
         StatusType control=lectures.removeVertex(lectures_to_delete[i]);
+        delete (lectures_to_delete[i]);
         if(control!=SUCCESS) return false;
     }
     StatusType control=courses.removeVertex(course_to_delete);
