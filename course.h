@@ -23,8 +23,8 @@ class course
     {
         for (int i=0 ; i<num_of_classes; i++)
         {
-            lecture* new_lec = new lecture(i,courseID,0);
-            AVLnode<lecture, lectureKey>* temp = new AVLnode<lecture, lectureKey>(*new_lec, new_lec->getKey()); 
+            lecture new_lec(i,courseID,0);
+            AVLnode<lecture, lectureKey>* temp = new AVLnode<lecture, lectureKey>(new_lec, new_lec.getKey()); 
             lectures[i] = temp;
         }
     }; 
@@ -37,7 +37,7 @@ class course
     //     //     lectures[i] = temp;
     //     // }
     // }; 
-    ~course() ;
+    ~course() = default;
 };
 
 

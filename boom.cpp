@@ -4,8 +4,8 @@ bool boom::AddCourse (int courseID, int numOfClasses)
 {
     AVLnode<course,int>*check= courses.find(courseID);
     if(check != nullptr) return false;
-    course* new_course = new course(courseID,numOfClasses);
-    AVLnode<course, int>* new_ver = new AVLnode<course, int>(*new_course, courseID);
+    course new_course(courseID,numOfClasses);
+    AVLnode<course, int>* new_ver = new AVLnode<course, int>(new_course, courseID);
     courses.addVertex(new_ver);
     class_counter+=numOfClasses;
     return true;
@@ -20,7 +20,7 @@ bool boom::RemoveCourse(int courseID)
     int num_of_classes = course_to_delete->info.getNumOfClasses();
     for(int i=0; i<num_of_classes;i++){
         StatusType control=lectures.removeVertex(lectures_to_delete[i]);
-        // delete (lectures_to_delete[i]);
+        delete (lectures_to_delete[i]);
         if(control!=SUCCESS) return false;
     }
     StatusType control=courses.removeVertex(course_to_delete);
