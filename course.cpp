@@ -67,17 +67,13 @@ array<AVLnode<lecture, lectureKey>*>& course::getLectures()
     return lectures;
 }
 
-course::~course()
-{
-    for(int i=0; i<num_of_classes ; i++)
-    {
-        if(lectures[i] != NULL)
-        {
-            // if (((lectures[i])->info) != NULL)
-            // {
-            //     delete ((lectures[i])->info);
-            // }
-            delete (lectures[i]);
-        }
-    }
-}
+// course::~course()
+// {
+//     for(int i=0; i<num_of_classes ; i++)
+//     {
+//         if(lectures[i] != NULL)
+//         {
+//             delete (lectures[i]);
+//         }
+//     }
+// }

@@ -178,11 +178,11 @@ StatusType AVLtree<T,M>::addVertex(AVLnode<T,M> *new_vertex)  {
     if(root==NULL){
         root= new_vertex;
     }
-    if ((biggest == nullptr) || (*(biggest->info) < *(new_vertex->info)))
+    if ((biggest == nullptr) || (biggest->info < new_vertex->info))
     {
         biggest = new_vertex;
     }
-    if ((smallest == nullptr) || (*(smallest->info) > *(new_vertex->info)))
+    if ((smallest == nullptr) || (smallest->info > new_vertex->info))
     {
         smallest = new_vertex;
     }
@@ -193,7 +193,7 @@ StatusType AVLtree<T,M>::addVertex(AVLnode<T,M> *new_vertex)  {
         if(current_vertex->info == new_vertex->info) return SUCCESS; // this vertex already exists.
         parent=current_vertex;
         bool procede_left;
-        if(*(current_vertex->info) > *(new_vertex->info)) procede_left = true;// if current node bigger then new node, we need to go left.
+        if(current_vertex->info > new_vertex->info) procede_left = true;// if current node bigger then new node, we need to go left.
         else procede_left = false;// else we need to go right
         current_vertex = procede_left ? current_vertex->left_son : current_vertex->right_son;
         //when adding a new vertex it must become a leaf at first
@@ -518,7 +518,7 @@ return SUCCESS;
 template <class T, class M>
 void printVertex(AVLnode<T,M> *vertex) {
     std::cout <<"info: ";
-    std::cout << *(vertex->info) << std::endl;
+    std::cout << vertex->info << std::endl;
     std::cout <<"hieght: ";
     std::cout <<vertex->height<< std::endl;
     std::cout <<"balance: ";
@@ -526,7 +526,7 @@ void printVertex(AVLnode<T,M> *vertex) {
     std::cout <<"left son: ";
     if (vertex->left_son != nullptr) 
     {
-        std::cout << *(vertex->left_son->info)<< std::endl;
+        std::cout <<vertex->left_son->info<< std::endl;
     }
     else 
     {
@@ -534,13 +534,13 @@ void printVertex(AVLnode<T,M> *vertex) {
     }
     std::cout <<"right son: ";
     if(vertex->right_son != nullptr){
-        std::cout <<*(vertex->right_son->info)<< std::endl;
+        std::cout <<vertex->right_son->info<< std::endl;
     }
     else std::cout<<"no right son" << std::endl;
     std::cout <<"parent: ";
     if (vertex->parent != nullptr)
     {
-        std::cout <<*(vertex->parent->info)<< std::endl;
+        std::cout <<vertex->parent->info<< std::endl;
     }
     else
     {

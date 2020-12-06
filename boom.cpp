@@ -15,15 +15,15 @@ bool boom::RemoveCourse(int courseID)
 {
     AVLnode<course,int>* course_to_delete = courses.find(courseID);
     if(course_to_delete == nullptr) return false;
-    class_counter-=course_to_delete->info->getNumOfClasses();
-    array<AVLnode<lecture, lectureKey>*> lectures_to_delete = course_to_delete->info->getLectures();
-    int num_of_classes = course_to_delete->info->getNumOfClasses();
+    class_counter-=course_to_delete->info.getNumOfClasses();
+    array<AVLnode<lecture, lectureKey>*> lectures_to_delete = course_to_delete->info.getLectures();
+    int num_of_classes = course_to_delete->info.getNumOfClasses();
     for(int i=0; i<num_of_classes;i++){
         StatusType control=lectures.removeVertex(lectures_to_delete[i]);
-        // if (lectures_to_delete[i] != NULL)
-        // {
-        //     delete (lectures_to_delete[i]);
-        // }
+        if (lectures_to_delete[i] != NULL)
+        {
+            delete (lectures_to_delete[i]);
+        }
         if(control!=SUCCESS) return false;
     }
     StatusType control=courses.removeVertex(course_to_delete);
@@ -36,13 +36,13 @@ StatusType boom::WatchClass(int courseID, int classID, int time)
 {   
     AVLnode<course,int>* temp = courses.find(courseID);
     if(temp == nullptr) return FAILURE;
-    if (temp->info->getNumOfClasses() < (classID +1))
+    if (temp->info.getNumOfClasses() < (classID +1))
     {
         return INVALID_INPUT;
     }
-    AVLnode<lecture, lectureKey>* lec = (temp->info->getLectures())[classID];
+    AVLnode<lecture, lectureKey>* lec = (temp->info.getLectures())[classID];
     if (lectures.removeVertex(lec) != SUCCESS) return FAILURE;
-    lec->info->getViewTime() += time;
+    lec->info.getViewTime() += time;
     lec->key.viewTime += time;
     if (lectures.addVertex(lec) != SUCCESS) return FAILURE;
     return SUCCESS;
@@ -51,28 +51,28 @@ StatusType boom::WatchClass(int courseID, int classID, int time)
 int boom::TimeViewed(int courseID, int classID){
     AVLnode<course,int>* wanted_course = courses.find(courseID);
     if (wanted_course == NULL) return -1;
-    if (wanted_course->info->getNumOfClasses() <= classID) return -2;
-    array<AVLnode<lecture, lectureKey>*> wanted_course_lectures = wanted_course->info->getLectures();
-    int TimeViewed = wanted_course_lectures[classID]->info->getViewTime();
+    if (wanted_course->info.getNumOfClasses() <= classID) return -2;
+    array<AVLnode<lecture, lectureKey>*> wanted_course_lectures = wanted_course->info.getLectures();
+    int TimeViewed = wanted_course_lectures[classID]->info.getViewTime();
     return TimeViewed;
 }
 
 void recieveFromLecturesTree(AVLnode<lecture,lectureKey> *item,int* &courses,int* &classes,int &max_actions){
     if (max_actions <= 0) return;
-    *classes=item->info->getLectureID();
+    *classes=item->info.getLectureID();
     classes++;
-    *courses=item->info->getCourseID();
+    *courses=item->info.getCourseID();
     courses++; 
     max_actions--;  
 }
 
 void recieveFromCoursesTree(AVLnode<course,int> *item,int* &courses,int* &classes, int &max_actions)
 {
-    for (int i = 0; ((i < item->info->getNumOfClasses()) && (max_actions > 0)) ; i++ )
+    for (int i = 0; ((i < item->info.getNumOfClasses()) && (max_actions > 0)) ; i++ )
     {
-        if ((item->info->getLectures()[i])->info->getViewTime() == 0)
+        if ((item->info.getLectures()[i])->info.getViewTime() == 0)
         {
-            *courses = item->info->getCourseID();
+            *courses = item->info.getCourseID();
             courses++;
             *classes = i;
             classes++;

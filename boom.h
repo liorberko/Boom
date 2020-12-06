@@ -17,6 +17,10 @@ public:
     boom()=default;
 
     ~boom() = default;
+    // {
+    //     delete(&lectures);
+    //     delete(&courses);
+    // }
 
     bool AddCourse(int courseID, int numOfClasses);
 
