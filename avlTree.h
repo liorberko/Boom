@@ -336,7 +336,7 @@ void AVLtree<T,M>::setBalance(AVLnode<T,M> *vertex) {
 }
 template <class T, class M>
 void AVLtree<T,M>::rebalance(AVLnode<T,M> *vertex){
-    int prev_balace= vertex->balance;
+//    int prev_balace= vertex->balance;
     setBalance(vertex);
     if(vertex->balance==-2){
         vertex->right_son->balance<=0 ? rotateRightRight(vertex) : rotateRightLeft(vertex);

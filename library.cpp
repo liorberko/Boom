@@ -52,7 +52,7 @@ StatusType WatchClass(void *DS, int courseID, int classID, int time)
 
 StatusType TimeViewed(void *DS, int courseID, int classID, int *timeViewed)
 {
-    if (DS==NULL, courseID<=0, classID<0 )
+    if (DS==NULL || courseID<=0 || classID<0 )
     {
         return INVALID_INPUT;
     }
