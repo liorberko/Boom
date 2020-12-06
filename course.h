@@ -37,7 +37,7 @@ class course
     //     //     lectures[i] = temp;
     //     // }
     // }; 
-    ~course() = default;
+    ~course();
 };
 
 

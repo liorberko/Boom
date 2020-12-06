@@ -29,7 +29,6 @@ class AVLtree
     (int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions), int* &courses,int* &classes);  
     StatusType applyFromLeft
     (int &num, void (*doSomething)(AVLnode<T,M> *item,int* &courses,int* &classes, int &max_actions),int* &courses,int* &classes);  
-    static void deleteNode(AVLnode<T,M> *toDelete);
     AVLnode<T,M>* find(M to_find);
     void printBalance();
     void printTree();
@@ -155,15 +154,18 @@ template <class T, class M>
 AVLtree<T,M>::AVLtree() : root(nullptr),biggest(nullptr),smallest(nullptr) {}
 
 template <class T, class M> 
-void AVLtree<T,M>::deleteNode(AVLnode<T,M> *toDelete)
+void deleteNode(AVLnode<T,M> *toDelete)
 {
-    delete(toDelete);
+    if (toDelete != nullptr)
+    {
+        delete(toDelete);
+    }
 }
 
 template <class T, class M>
 AVLtree<T,M>::~AVLtree()
 {
-    postOrder(root, AVLtree<T,M>::deleteNode);
+    postOrder(root, deleteNode);
 }
 
 /****************************************/
