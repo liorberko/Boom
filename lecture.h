@@ -1,18 +1,12 @@
 #ifndef LECTURE_H
 #define LECTURE_H
 #include "AVLnode.h"
-#include "library.h"
-#include "array.h"
+#include "AVLtree.h"
+#include "lectureKey.h"
 
-struct lectureKey{
-        int lectureID;
-        int courseID;
-        int viewTime;
-        lectureKey(int lectureID, int courseID, int viewTime) : lectureID(lectureID), courseID(courseID), viewTime(viewTime){}
-        ~lectureKey() = default;
-    };
 class lecture 
 {
+    AVLtree<lecture,lectureKey>* papa;
     lectureKey key;
     public:
     int& getLectureID();
@@ -24,10 +18,16 @@ class lecture
     bool operator==(const lecture target) const ;
     lecture& operator=(const lecture target) ;
     friend std::ostream& operator<<(std::ostream& out, const lecture target) ;
-    lecture()  : key(0,0,0) {}
-    lecture(int lectureID, int courseID, int viewTime = 0) : key(lectureID, courseID, viewTime){} 
-    lecture(const lecture& target) : key(target.key.lectureID, target.key.courseID, target.key.viewTime){}
-    ~lecture() = default;
+    lecture()  : key(0,0,0) , papa(NULL) {}
+    lecture(int lectureID, int courseID, int viewTime = 0, AVLtree<lecture,lectureKey>* papa= NULL ) : key(lectureID, courseID, viewTime),  papa(papa){} 
+    lecture(const lecture& target) : key(target.key.lectureID, target.key.courseID, target.key.viewTime) ,papa(target.papa){}
+    ~lecture() 
+    {
+        if (papa != NULL)
+        {
+            papa->removeVertex(papa->find(key));
+        }
+    }
 };
 
 

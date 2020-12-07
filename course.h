@@ -1,8 +1,6 @@
 #ifndef COURSE_H
 #define COURSE_H
 #include "AVLnode.h"
-#include "library.h"
-#include "array.h"
 #include "lecture.h"
 
 class course 
@@ -11,10 +9,10 @@ class course
     int num_of_classes;
     AVLnode<lecture, lectureKey>** lectures;
     public:
-    bool operator<(const course target) const ;
-    bool operator>(const course target) const ;
-    bool operator==(const course target) const ;
-    course& operator=(const course target) ;
+    bool operator<(const course &target) const ;
+    bool operator>(const course &target) const ;
+    bool operator==(const course &target) const ;
+    course& operator=(const course &target) ;
     int getCourseID();
     int getNumOfClasses();
     AVLnode<lecture, lectureKey>** getLectures();
@@ -24,7 +22,7 @@ class course
         lectures = new AVLnode<lecture, lectureKey>*[num_of_classes];
         for (int i=0 ; i<num_of_classes; i++)
         {
-            lecture new_lec(i,courseID,0);
+            lecture new_lec(i,courseID,0, NULL);
             AVLnode<lecture, lectureKey>* temp = new AVLnode<lecture, lectureKey>(new_lec, new_lec.getKey()); 
             lectures[i] = temp;
         }

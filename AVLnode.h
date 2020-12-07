@@ -1,7 +1,6 @@
 #ifndef AVLNODE
 #define AVLNODE
 #include <iostream>
-#include "library.h"
 
 
 template <class T, class M>

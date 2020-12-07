@@ -43,14 +43,14 @@ bool boom::RemoveCourse(int courseID)
     class_counter-=course_to_delete->info.getNumOfClasses();
     AVLnode<lecture, lectureKey>** lectures_to_delete = course_to_delete->info.getLectures();
     int num_of_classes = course_to_delete->info.getNumOfClasses();
-    for(int i=0; i<num_of_classes;i++){
-        StatusType control=lectures.removeVertex(lectures_to_delete[i]);
-        // if (lectures_to_delete[i] != NULL)
-        // {
-        //     delete (lectures_to_delete[i]);
-        // }
-        if(control!=SUCCESS) return false;
-    }
+    // for(int i=0; i<num_of_classes;i++){
+    //     StatusType control=lectures.removeVertex(lectures_to_delete[i]);
+    //     // if (lectures_to_delete[i] != NULL)
+    //     // {
+    //     //     delete (lectures_to_delete[i]);
+    //     // }
+    //     if(control!=SUCCESS) return false;
+    // }
     StatusType control=courses.removeVertex(course_to_delete);
     delete (course_to_delete);
     if(control==SUCCESS) return true;

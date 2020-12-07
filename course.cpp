@@ -1,7 +1,7 @@
 #include "course.h"
 
 
-bool course::operator<(const course target) const {
+bool course::operator<(const course &target) const {
     if (courseID < target.courseID)
     {
         return true;
@@ -9,11 +9,11 @@ bool course::operator<(const course target) const {
     return false;
 }
 
-bool course::operator>(const course target) const {
+bool course::operator>(const course &target) const {
     if(courseID>target.courseID) return true;
     return false;
 }
-bool course::operator==(const course target) const
+bool course::operator==(const course &target) const
 {
     if (courseID == target.courseID)
     {
@@ -21,7 +21,7 @@ bool course::operator==(const course target) const
     }
     return false;
 }
-course& course::operator=(const course target) 
+course& course::operator=(const course &target) 
 {
     if (this == &target)
     {
