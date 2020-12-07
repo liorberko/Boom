@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/lior.dir/boom.cpp.obj"
   "CMakeFiles/lior.dir/course.cpp.obj"
   "CMakeFiles/lior.dir/lecture.cpp.obj"
+  "CMakeFiles/lior.dir/lectureKey.cpp.obj"
   "CMakeFiles/lior.dir/library.cpp.obj"
   "CMakeFiles/lior.dir/main1.cpp.obj"
   "liblior.dll.a"

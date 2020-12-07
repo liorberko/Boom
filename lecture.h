@@ -6,9 +6,9 @@
 
 class lecture 
 {
-    AVLtree<lecture,lectureKey>* papa;
-    lectureKey key;
     public:
+    lectureKey key;
+    AVLtree<lecture,lectureKey>* papa;
     int& getLectureID();
     int& getCourseID();
     int& getViewTime();

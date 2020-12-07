@@ -16,7 +16,7 @@ private:
 public:
     boom()=default;
 
-    ~boom() =default;
+    ~boom();
 
     bool AddCourse(int courseID, int numOfClasses);
 

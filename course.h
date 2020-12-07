@@ -27,26 +27,19 @@ class course
             lectures[i] = temp;
         }
     }; 
-    // course(const course& target) : courseID(target.courseID), num_of_classes(target.num_of_classes), lectures(num_of_classes) 
+    course(course& target) : 
+    courseID(target.courseID), num_of_classes(target.num_of_classes), lectures(target.getLectures()) {}; 
+    ~course() = default;
     // {
-    //     // for (int i=0 ; i<num_of_classes; i++)
+    //     // for(int i=0; i<num_of_classes;i++)
     //     // {
-    //     //     lecture* new_lec = new lecture(i,courseID,0);
-    //     //     AVLnode<lecture, lectureKey>* temp = new AVLnode<lecture, lectureKey>(*new_lec, new_lec->getKey()); 
-    //     //     lectures[i] = temp;
+    //     //     if (lectures[i] != NULL)
+    //     //     {
+    //     //         delete (lectures[i]);
+    //     //     }
     //     // }
-    // }; 
-    ~course() 
-    {
-        for(int i=0; i<num_of_classes;i++)
-        {
-            if (lectures[i] != NULL)
-            {
-                delete (lectures[i]);
-            }
-        }
-        delete[] lectures;
-    }
+    //     delete lectures;
+    // }
 };
 
 

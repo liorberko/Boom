@@ -11,16 +11,17 @@ bool boom::AddCourse (int courseID, int numOfClasses)
     return true;
 }
 
-// void inorderDelete(AVLnode<course,int>* node){
-//     if (node == nullptr) return;
-//     inorderDelete(node->right_son);
-//     AVLnode<lecture, lectureKey>* courses = node->info.getLectures();
-//     for(int i=0; i<node->info.getNumOfClasses() ; i++)
-//     {
-//         delete courses[i];
-//     }
-//     inorderDelete(node->left_son);
-// }
+void inorderDelete(AVLnode<course,int>* node){
+    if (node == nullptr) return;
+    inorderDelete(node->right_son);
+    AVLnode<lecture, lectureKey>** courses = node->info.getLectures();
+    for(int i=0; i<node->info.getNumOfClasses() ; i++)
+    {
+        delete courses[i];
+    }
+    delete[] courses;
+    inorderDelete(node->left_son);
+}
 
 
 // void inorderDelete(AVLnode<course,int>* node){
@@ -31,10 +32,10 @@ bool boom::AddCourse (int courseID, int numOfClasses)
 //     inorderDelete(node->left_son);
 // }
 
-// boom::~boom()
-// {
-//     inorderDelete(courses.getRoot());
-// }
+boom::~boom()
+{
+    inorderDelete(courses.getRoot());
+}
 
 bool boom::RemoveCourse(int courseID)
 {
@@ -43,14 +44,15 @@ bool boom::RemoveCourse(int courseID)
     class_counter-=course_to_delete->info.getNumOfClasses();
     AVLnode<lecture, lectureKey>** lectures_to_delete = course_to_delete->info.getLectures();
     int num_of_classes = course_to_delete->info.getNumOfClasses();
-    // for(int i=0; i<num_of_classes;i++){
-    //     StatusType control=lectures.removeVertex(lectures_to_delete[i]);
-    //     // if (lectures_to_delete[i] != NULL)
-    //     // {
-    //     //     delete (lectures_to_delete[i]);
-    //     // }
-    //     if(control!=SUCCESS) return false;
-    // }
+    for(int i=0; i<num_of_classes;i++){
+        // StatusType control=lectures.removeVertex(lectures_to_delete[i]);
+        if (lectures_to_delete[i] != NULL)
+        {
+            delete (lectures_to_delete[i]);
+        }
+        //if(control!=SUCCESS) return false;
+    }
+    delete[] lectures_to_delete;
     StatusType control=courses.removeVertex(course_to_delete);
     delete (course_to_delete);
     if(control==SUCCESS) return true;
@@ -70,6 +72,7 @@ StatusType boom::WatchClass(int courseID, int classID, int time)
     lec->info.getViewTime() += time;
     lec->key.viewTime += time;
     if (lectures.addVertex(lec) != SUCCESS) return FAILURE;
+    lec->info.papa = &lectures;
     return SUCCESS;
 }
 
